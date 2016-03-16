@@ -23,6 +23,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "network/NetworkSocket.h"
 #include "network/PacketQueue.h"
 #include "memory/BufferOrganizer.h"
+#include "memory/Buffer.h"
+
+enum NETWORK_PROTOCOL_RESULT{
+    NETWORK_PROTOCOL_OK = 0,
+    NETWORK_PROTOCOL_OUT_OF_BUFFER,
+    NETWORK_PROTOCOL_NO_MESSAGE,
+    NETWORK_PROTOCOL_ERROR,
+};
 
 class NetworkProtocol
 {
@@ -31,15 +39,15 @@ protected:
     PacketQueue sendQueue;
     BufferOrganizer receiveOrganizer;
     NetworkSocket * protocolSocket;
-    virtual void readIncomming() = 0;
-    virtual void sendOutcomming() = 0;
     void flushSocket();
-
+    virtual void treatIncomming() = 0;
 
 public:
     
     virtual bool connectProtocol(bool isMaster) = 0;
     virtual bool disconnectProtocol(bool force) = 0;
+    virtual NETWORK_PROTOCOL_RESULT sendBuffer(Buffer * toSend) = 0;
+    virtual NETWORK_PROTOCOL_RESULT receiveBuffer(Buffer * inputBuffer) = 0;
 
 };
 

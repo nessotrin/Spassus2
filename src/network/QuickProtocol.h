@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "network/NetworkSocket.h"
 #include "network/NetworkProtocol.h"
 
-#define QUICKPROTOCOL_MAXMESSAGESIZE 512
+#define QUICKPROTOCOL_MAXMESSAGESIZE 512 //TODO: add checks and check for doubled parts
 #define QUICKPROTOCOL_MAXMESSAGEWAITING 2
 
 class QuickProtocol : NetworkProtocol
@@ -35,20 +35,15 @@ private:
 
     unsigned int receiveIdCounter;
     unsigned int sendIdCounter;
-    
-    
-    PacketQueue receiveQueue;
-    NetworkSocket * protocolSocket;
-    void readIncomming();
-    void sendOutcomming();
-    
-    void flushSocket();
-    
+    void treatIncomming();
+    void waitForABuffer(Buffer * tempBuffer);
+
 public:
     
     bool connectProtocol(bool isMaster);
     bool disconnectProtocol(bool force);
-    
+    NETWORK_PROTOCOL_RESULT sendBuffer(Buffer * toSend);
+    NETWORK_PROTOCOL_RESULT receiveBuffer(Buffer * inputBuffer);
 };
 
 #endif // _QUICKPROTROCOL_H_
