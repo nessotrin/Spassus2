@@ -21,22 +21,38 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #define NETWORK_PROTOCOL_TRANSFERE_SIZE 512
 
+NetworkProtocol::NetworkProtocol()
+{
+    
+}
+
+NetworkProtocol::NetworkProtocol(NetworkSocket * newSocket)
+{
+    socket = newSocket;
+}
+
+
+void NetworkProtocol::setSocket(NetworkSocket * newSocket)
+{
+    socket = newSocket;
+}
+
 void NetworkProtocol::flushSocket()
 {
     unsigned char tempBufferData[NETWORK_PROTOCOL_TRANSFERE_SIZE];
     
     Buffer transferBuffer(tempBufferData,NETWORK_PROTOCOL_TRANSFERE_SIZE);
     
-    while(protocolSocket->getWaitingSize())
+    while(socket->getWaitingSize())
     {
-        protocolSocket->readIn(&transferBuffer);
+        socket->readIn(&transferBuffer);
         receiveQueue.addQueueData(&transferBuffer);
         transferBuffer.setSize(NETWORK_PROTOCOL_TRANSFERE_SIZE); // reset buffer
     }
 
     while(sendQueue.getNextPacket(&transferBuffer))
     {
-        protocolSocket->writeOut(&transferBuffer);
+        socket->writeOut(&transferBuffer);
         transferBuffer.setSize(NETWORK_PROTOCOL_TRANSFERE_SIZE); // reset buffer
     }
 }

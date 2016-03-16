@@ -44,9 +44,13 @@ private:
     unsigned int bufferMaxSize = 0;
 
 public:
+    BufferOrganizer();  
     BufferOrganizer(unsigned int newBufferCount, unsigned int newBufferMaxSize);    
     bool allocOrganizer();
     void freeOrganizer();
+    
+    void setBufferCount(unsigned int newBufferCount);
+    void setBufferMaxSize(unsigned int newBufferMaxSize);
     
     bool isPresent(unsigned int id);
     BUFFER_ORGANIZER_RESULT addBuffer(Buffer * toAdd, unsigned int id);

@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 void testPacketQueue()
 {
     PacketQueue packetQueue(512,0x60);
-    if(packetQueue.allocatePacketQueue())
+    if(packetQueue.allocPacketQueue())
     {
         Error::crash((char *)"ALLOC");        
     }

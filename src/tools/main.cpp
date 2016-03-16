@@ -33,6 +33,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "network/tests/PacketMakerTests.h"
 #include "memory/tests/BufferOrganizerTests.h"
 
+#include "network/QuickProtocol.h"
+
 
 #ifndef CALCULIB
 int main(int isAppli, unsigned short OptionNum)
@@ -57,27 +59,40 @@ int main()
     
     globalRenderer.setScreen(&calcScreen);
 
-    PinSocket socket;
-
     testList();
     testPacketQueue();
     testPacketMaker();
     testBufferOrganizer();
     
-    while(1)
+    QuickProtocol testProtocol;
+    PinSocket socket;
+    testProtocol.setSocket(&socket);
+    
+    
+    unsigned char testBufferData[64];
+    Buffer testBuffer(testBufferData,64);
+    
+    printf("INIT...\n");
+    testProtocol.init();
+    printf("CONNECTING...\n");
+    if(testProtocol.connectProtocol(true))
     {
-       // printf("Start\n");
-//        Message atmp((unsigned char *)"aaa",3);
-//        protocolInterpreter.sendMessage(&atmp);
-//        printf("Mid\n");
-//        Message tmp;
-//        unsigned char tmpBuff[4] = {0,0,0,0};
-//        tmp.setBuffer(tmpBuff);
-//        protocolInterpreter.getNextMessage(&tmp,3);
-//        printf("%s - %d \n",tmp.getBuffer(),tmp.getSize());
-//        printf("End\n");
-        Sleep(100);
+        printf("ERROR !\n");
     }
+    else
+    {
+        printf("DONE !\n");
+    }
+    printf("SENDING...\n");
+    if(testProtocol.sendBuffer(&testBuffer))
+    {
+        printf("ERROR !\n");
+    }
+    else
+    {
+        printf("DONE...\n");        
+    }
+    
     
     MainMenu mainMenu;
     mainMenu.setupMenu(&globalRenderer, &globalKeyboardReader);

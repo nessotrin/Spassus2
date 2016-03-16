@@ -48,12 +48,16 @@ public:
 
     PacketQueue();
     PacketQueue(unsigned int newQueueSize,unsigned char newSeparator);
-    bool allocatePacketQueue();
+    
+    bool allocPacketQueue();
     void freePacketQueue();
+    
     void setQueueSize(unsigned int newQueueSize);
     void setSeparator(unsigned char newSeparator);
+    
     PACKET_QUEUE_RESULT getNextPacket(Buffer * bufferToUse);
     void removeLastPacket(unsigned int size);
+    
     PACKET_QUEUE_RESULT addPacket(Buffer * bufferToAdd);
 
     PACKET_QUEUE_RESULT addQueueData(Buffer * newData);

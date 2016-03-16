@@ -25,7 +25,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "network/PacketMaker.h"
 #include "memory/BufferOrganizer.h"
 
+bool QuickProtocol::init()
+{
+    receiveQueue.setQueueSize(QUICKPROTOCOL_RECEIVEQUEUE_SIZE);
+    sendQueue.setQueueSize(QUICKPROTOCOL_SENDQUEUE_SIZE);
 
+    receiveOrganizer.setBufferCount(QUICKPROTOCOL_MAXMESSAGEWAITING);
+    receiveOrganizer.setBufferMaxSize(QUICKPROTOCOL_MAXMESSAGESIZE);
+    
+    return (receiveQueue.allocPacketQueue() || sendQueue.allocPacketQueue() || receiveOrganizer.allocOrganizer());
+}
 void QuickProtocol::treatIncomming()
 {
     unsigned char tempBufferData[QUICKPROTOCOL_MAXMESSAGESIZE];

@@ -21,9 +21,26 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include <CalcuLib.h>
 
+
+BufferOrganizer::BufferOrganizer()
+{
+    
+}
+
+
 BufferOrganizer::BufferOrganizer(unsigned int newBufferCount, unsigned int newBufferMaxSize)
 {
     bufferCount = newBufferCount;
+    bufferMaxSize = newBufferMaxSize;
+}
+
+void BufferOrganizer::setBufferCount(unsigned int newBufferCount)
+{
+    bufferCount = newBufferCount;
+}
+
+void BufferOrganizer::setBufferMaxSize(unsigned int newBufferMaxSize)
+{
     bufferMaxSize = newBufferMaxSize;
 }
 

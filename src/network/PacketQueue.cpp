@@ -30,7 +30,7 @@ PacketQueue::PacketQueue(unsigned int newQueueSize, unsigned char newSeparator)
     separator = newSeparator;
 }
 
-bool PacketQueue::allocatePacketQueue()
+bool PacketQueue::allocPacketQueue()
 {
     queueData = (unsigned char *) malloc(queueSize);
     if(queueData == NULL)
@@ -122,6 +122,7 @@ void PacketQueue::moveBufferLeft(unsigned int amount)
 
 PACKET_QUEUE_RESULT PacketQueue::addPacket(Buffer * bufferToAdd)
 {
+    printf("%d %d %d\n",queueSize,queuePos,bufferToAdd->getSize());
     if(queueSize-queuePos < bufferToAdd->getSize()+1)
     {
         return PACKET_QUEUE_OUTOFSPACE;

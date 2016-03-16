@@ -38,12 +38,16 @@ protected:
     PacketQueue receiveQueue;
     PacketQueue sendQueue;
     BufferOrganizer receiveOrganizer;
-    NetworkSocket * protocolSocket;
+    NetworkSocket * socket;
     void flushSocket();
     virtual void treatIncomming() = 0;
 
 public:
     
+    NetworkProtocol();
+    NetworkProtocol(NetworkSocket * newSocket);
+    void setSocket(NetworkSocket * newSocket);
+    virtual bool init() = 0;
     virtual bool connectProtocol(bool isMaster) = 0;
     virtual bool disconnectProtocol(bool force) = 0;
     virtual NETWORK_PROTOCOL_RESULT sendBuffer(Buffer * toSend) = 0;
