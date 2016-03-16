@@ -25,19 +25,19 @@ void NetworkProtocol::flushSocket()
 {
     unsigned char tempBufferData[NETWORK_PROTOCOL_TRANSFERE_SIZE];
     
-    Buffer transferBuffer(&tempBufferData,NETWORK_PROTOCOL_TRANSFERE_SIZE);
+    Buffer transferBuffer(tempBufferData,NETWORK_PROTOCOL_TRANSFERE_SIZE);
     
     while(protocolSocket->getWaitingSize())
     {
         protocolSocket->readIn(&transferBuffer);
-        receiveQueue->addQueueData(&transferBuffer);
-        transferBuffer->setSize(NETWORK_PROTOCOL_TRANSFERE_SIZE); // reset buffer
+        receiveQueue.addQueueData(&transferBuffer);
+        transferBuffer.setSize(NETWORK_PROTOCOL_TRANSFERE_SIZE); // reset buffer
     }
 
-    while(sendQueue->getNextPacket(&transferBuffer))
+    while(sendQueue.getNextPacket(&transferBuffer))
     {
         protocolSocket->writeOut(&transferBuffer);
-        transferBuffer->setSize(NETWORK_PROTOCOL_TRANSFERE_SIZE); // reset buffer
+        transferBuffer.setSize(NETWORK_PROTOCOL_TRANSFERE_SIZE); // reset buffer
     }
 }
 

@@ -97,7 +97,7 @@ BUFFER_ORGANIZER_RESULT BufferOrganizer::getBuffer(Buffer * outputBuffer, unsign
     int pos = searchForId(wantedId);
     if(pos == -1)
     {
-        return BUFFER_ORGANIZER_NOMESSAGE;
+        return BUFFER_ORGANIZER_NOBUFFER;
     }
     
     if(outputBuffer->getSize() < bufferSize[pos])

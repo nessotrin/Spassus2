@@ -20,23 +20,24 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "QuickProtocol.h"
 
 #include "network/PacketMaker.h"
-
+#include "network/PacketMaker.h"
+#include "memory/BufferOrganizer.h"
 
 
 void QuickProtocol::readIncomming()
 {
     unsigned char tempBufferData[QUICKPROTOCOL_MAXMESSAGESIZE];
-    Buffer transfereBuffer(&tempBufferData, QUICKPROTOCOL_MAXMESSAGESIZE);
+    Buffer transfereBuffer(tempBufferData, QUICKPROTOCOL_MAXMESSAGESIZE);
     
-    while(receiveQueue->getNextPacket(transfereBuffer))
+    while(receiveQueue.getNextPacket(&transfereBuffer))
     {
-        if(PacketMaker::checkPacketCorruption(transfereBuffer))
+        if(PacketMaker::checkPacketCorruption(&transfereBuffer))
         {
             printf("CORRUPTION /!\\n");
             continue;
         }
         
-        unsigned int packetId = PacketMaker.getPacketId();
+        unsigned int packetId = PacketMaker::getPacketId(&transfereBuffer);
         
         if(packetId < receiveIdCounter)
         {
@@ -49,8 +50,8 @@ void QuickProtocol::readIncomming()
             printf("TOO FRESH !!\n");
         }
         
-        RECEIVE_ORGANIZER_RESULT result = receiveOrganizer->addPacket(transfereBuffer);
-        if(result == RECEIVE_ORGANIZER_DUPLICATE)
+        BUFFER_ORGANIZER_RESULT result = receiveOrganizer.addBuffer(&transfereBuffer,packetId);
+        if(result == BUFFER_ORGANIZER_DUPLICATE)
         {
             printf("DUPLICATE !!\n");
         }

@@ -20,19 +20,26 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #ifndef _NETWORKPROTOCOL_H_
 #define _NETWORKPROTOCOL_H_
 
+#include "network/NetworkSocket.h"
+#include "network/PacketQueue.h"
+#include "memory/BufferOrganizer.h"
+
 class NetworkProtocol
 {
-private:
+protected:
     PacketQueue receiveQueue;
-    PacketOrganizer receiveOrganizer;
+    PacketQueue sendQueue;
+    BufferOrganizer receiveOrganizer;
     NetworkSocket * protocolSocket;
     virtual void readIncomming() = 0;
     virtual void sendOutcomming() = 0;
-    
+    void flushSocket();
+
+
 public:
     
-    virtual bool ConnectProtocol(bool isMaster) = 0;
-    virtual bool DisconnectProtocol(bool force) = 0;
+    virtual bool connectProtocol(bool isMaster) = 0;
+    virtual bool disconnectProtocol(bool force) = 0;
 
 };
 
