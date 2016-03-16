@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Project Name="Spassus2" InternalType="">
+  <Plugins>
+    <Plugin Name="qmake">
+      <![CDATA[00010001N0005Debug000000000000]]>
+    </Plugin>
+    <Plugin Name="CMakePlugin">
+      <![CDATA[[{
+  "name": "Debug",
+  "enabled": false,
+  "buildDirectory": "build",
+  "sourceDirectory": "$(ProjectPath)",
+  "generator": "",
+  "buildType": "",
+  "arguments": [],
+  "parentProject": ""
+ }, {
+  "name": "Release",
+  "enabled": false,
+  "buildDirectory": "build",
+  "sourceDirectory": "$(ProjectPath)",
+  "generator": "",
+  "buildType": "",
+  "arguments": [],
+  "parentProject": ""
+ }]]]>
+    </Plugin>
+  </Plugins>
+  <Description/>
+  <Dependencies/>
+  <VirtualDirectory Name="src">
+    <VirtualDirectory Name="tools">
+      <File Name="src/tools/GameInstance.cpp"/>
+      <File Name="src/tools/main.cpp"/>
+      <File Name="src/tools/GameInstance.h"/>
+      <File Name="src/tools/FramerateMonitor.cpp"/>
+      <File Name="src/tools/FramerateMonitor.h"/>
+      <File Name="src/tools/FramerateLimiter.cpp"/>
+      <File Name="src/tools/FramerateLimiter.h"/>
+      <File Name="src/tools/Coord.cpp"/>
+      <File Name="src/tools/Coord.h"/>
+      <File Name="src/tools/Bit.h"/>
+      <File Name="src/tools/Bit.cpp"/>
+      <File Name="src/tools/Geometry.cpp"/>
+      <File Name="src/tools/Geometry.h"/>
+      <File Name="src/tools/Algorithms.h"/>
+      <File Name="src/tools/ToCharNoEndian.h" ExcludeProjConfig="Debug"/>
+      <File Name="src/tools/ToCharNoEndian.cpp"/>
+      <File Name="src/tools/ChecksumGenerator.h"/>
+      <File Name="src/tools/ChecksumGenerator.cpp"/>
+      <File Name="Makefile"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="render">
+      <File Name="src/render/Renderer.h"/>
+      <File Name="src/render/Renderer.cpp"/>
+      <File Name="src/render/Screen.cpp"/>
+      <File Name="src/render/Screen.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="world">
+      <File Name="src/world/World.h"/>
+      <File Name="src/world/World.cpp"/>
+      <VirtualDirectory Name="object">
+        <File Name="src/world/object/Object.h"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+    <VirtualDirectory Name="memory">
+      <File Name="src/memory/Bitmap.cpp"/>
+      <File Name="src/memory/Bitmap.h"/>
+      <File Name="src/memory/List.h"/>
+      <VirtualDirectory Name="tests">
+        <File Name="src/memory/tests/ListTests.cpp"/>
+        <File Name="src/memory/tests/ListTests.h"/>
+        <File Name="src/memory/tests/BufferOrganizerTests.h"/>
+        <File Name="src/memory/tests/BufferOrganizerTests.cpp"/>
+      </VirtualDirectory>
+      <File Name="src/memory/Buffer.h"/>
+      <File Name="src/memory/Buffer.cpp"/>
+      <File Name="src/memory/BufferOrganizer.h"/>
+      <File Name="src/memory/BufferOrganizer.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="error">
+      <File Name="src/error/Error.cpp"/>
+      <File Name="src/error/Error.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="keyboard">
+      <File Name="src/keyboard/KeyboardReader.cpp"/>
+      <File Name="src/keyboard/KeyboardSubscription.h"/>
+      <File Name="src/keyboard/KeyboardSubscription.cpp"/>
+      <File Name="src/keyboard/KeyEventReceiver.h"/>
+      <File Name="src/keyboard/KeyboardReader.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="gui">
+      <File Name="src/gui/Menu.cpp"/>
+      <File Name="src/gui/MainMenu.h"/>
+      <File Name="src/gui/Menu.h"/>
+      <File Name="src/gui/MainMenu.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="ressource">
+      <VirtualDirectory Name="bitmap">
+        <File Name="src/ressource/bitmap/MainMenuBitmap.h"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+    <VirtualDirectory Name="network">
+      <File Name="src/network/PinSocket.h"/>
+      <File Name="src/network/PinSocket.cpp"/>
+      <File Name="src/network/NetworkSocket.h"/>
+      <File Name="src/network/NetworkTools.cpp"/>
+      <File Name="src/network/NetworkTools.h"/>
+      <File Name="src/network/PacketQueue.h"/>
+      <File Name="src/network/PacketMaker.h"/>
+      <VirtualDirectory Name="tests">
+        <File Name="src/network/tests/PacketQueueTests.cpp"/>
+        <File Name="src/network/tests/PacketQueueTests.h"/>
+        <File Name="src/network/tests/PacketMakerTests.h"/>
+        <File Name="src/network/tests/PacketMakerTests.cpp"/>
+      </VirtualDirectory>
+      <File Name="src/network/PacketMaker.cpp"/>
+      <File Name="src/network/PacketQueue.cpp"/>
+      <File Name="src/network/QuickProtocol.h"/>
+      <File Name="src/network/QuickProtocol.cpp"/>
+      <File Name="src/network/NetworkSocket.cpp"/>
+      <File Name="src/network/NetworkProtocol.h"/>
+      <File Name="src/network/NetworkProtocol.cpp"/>
+    </VirtualDirectory>
+  </VirtualDirectory>
+  <Dependencies Name="Debug"/>
+  <Dependencies Name="Release"/>
+  <Settings Type="Dynamic Library">
+    <GlobalSettings>
+      <Compiler Options="" C_Options="" Assembler="">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="">
+        <LibraryPath Value="."/>
+      </Linker>
+      <ResourceCompiler Options=""/>
+    </GlobalSettings>
+    <Configuration Name="Debug" CompilerType="clang++" DebuggerType="GNU gdb debugger" Type="Dynamic Library" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-g" C_Options="-g" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="addin" IntermediateDirectory="./build" Command="./build/addin" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="./" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="yes">
+        <Target Name="Clean-Rebuild">make -f Makefile-Calc clean &amp;&amp; make -f Makefile-Calc</Target>
+        <Target Name="Calc-Send">../Tools/UsbConnector/Debug/UsbConnector SEND ../Projects/Spassus2/build/calc/addin.g1a spassus2.g1a fls0</Target>
+        <Target Name="Calc-Clean">make -f Makefile-Calc clean</Target>
+        <Target Name="Calc-Build">ADDIN_NAME=Spassus2 ADDIN_VERSION=0.0.0 make -f Makefile-Calc</Target>
+        <RebuildCommand>make -f Makefile clean &amp;&amp; make -f Makefile</RebuildCommand>
+        <CleanCommand>make -f Makefile clean</CleanCommand>
+        <BuildCommand>make -f Makefile</BuildCommand>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory>/home/hugo/Documents/NESSCASDKV103/Make</WorkingDirectory>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no" EnableCpp14="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+    <Configuration Name="Release" CompilerType="clang++" DebuggerType="GNU gdb debugger" Type="Dynamic Library" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="-O2" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="" IntermediateDirectory="./Release" Command="" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="yes">
+        <RebuildCommand/>
+        <CleanCommand>make clean</CleanCommand>
+        <BuildCommand>make</BuildCommand>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory>$(WorkspacePath)</WorkingDirectory>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no" EnableCpp14="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+  </Settings>
+</CodeLite_Project>
