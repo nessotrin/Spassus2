@@ -61,6 +61,8 @@
       <File Name="src/world/World.cpp"/>
       <VirtualDirectory Name="object">
         <File Name="src/world/object/Object.h"/>
+        <File Name="src/world/object/DotObject.h"/>
+        <File Name="src/world/object/DotObject.cpp"/>
       </VirtualDirectory>
     </VirtualDirectory>
     <VirtualDirectory Name="memory">
@@ -113,6 +115,11 @@
         <File Name="src/network/QuickProtocol/QuickProtocolPacker.cpp"/>
         <File Name="src/network/QuickProtocol/QuickProtocolPacker.h"/>
       </VirtualDirectory>
+      <File Name="src/network/NetworkHandler.h"/>
+      <File Name="src/network/NetworkHandler.cpp"/>
+      <File Name="src/network/NetworkEventSubscription.h"/>
+      <File Name="src/network/NetworkEventSubscription.cpp"/>
+      <File Name="src/network/NetworkEventReceiver.h"/>
     </VirtualDirectory>
   </VirtualDirectory>
   <Dependencies Name="Debug"/>

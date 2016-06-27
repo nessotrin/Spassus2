@@ -35,6 +35,7 @@ public:
     {
         return (key == b.key && receiver == b.receiver);
     } 
+	 
 };
 
 #endif

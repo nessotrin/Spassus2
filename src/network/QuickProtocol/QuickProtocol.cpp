@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 QuickProtocol::QuickProtocol()
 {
     receiveQueueBuffer.setBuffer(receiveQueueData);
-    receiveQueueBuffer.setSize(RECEIVEQUEUESIZE);
+    receiveQueueBuffer.setSize(0);
 }
 
 NETWORK_PROTOCOL_RESULT QuickProtocol::sendMessage(unsigned char type, Buffer * dataBuffer, int timeout)
@@ -78,11 +78,15 @@ NETWORK_PROTOCOL_RESULT QuickProtocol::receiveMessage(unsigned char * type, Buff
         return NETWORK_PROTOCOL_OUT_OF_BUFFER;
     }
     
-
-    if(QuickProtocolPacker::unpackBuffer(&receiveQueueBuffer,type,data))
+	QUICKPROTOCOL_UNPACK_RESULT unpackResult = QuickProtocolPacker::unpackBuffer(&receiveQueueBuffer,type,data);
+    if(unpackResult == QUICKPROTOCOL_UNPACK_ERROR)
     {
         return NETWORK_PROTOCOL_ERROR;
     }
+	else if(unpackResult == QUICKPROTOCOL_UNPACK_NOTCOMPLETE)
+	{
+		return NETWORK_PROTOCOL_OUT_OF_BUFFER;
+	}
     
     
     return NETWORK_PROTOCOL_OK;

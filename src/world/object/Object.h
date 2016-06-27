@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 class Object
 {
 public:
-    virtual void tick();
+    virtual void tick() = 0;
     
 };
 #endif

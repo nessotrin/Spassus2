@@ -77,8 +77,26 @@ int main()
     {
         printf("DONE...\n");        
     }
-    
-    
+	unsigned char type;
+	
+	
+	
+	/*
+	printf("RECEIVING...\n");
+	NETWORK_PROTOCOL_RESULT result = testProtocol.receiveMessage(&type,&testBuffer);
+	if(result == NETWORK_PROTOCOL_OK && type == 0x55)
+    {
+        printf("DONE  !\n");
+    }
+	else if (result == NETWORK_PROTOCOL_OUT_OF_BUFFER)
+	{
+		printf("NO DATA - ERROR !\n");
+	}
+    else
+    {
+        printf("ERROR\n");        
+    }
+    */
     MainMenu mainMenu;
     mainMenu.setupMenu(&globalRenderer, &globalKeyboardReader);
 

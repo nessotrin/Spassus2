@@ -52,6 +52,7 @@ bool QuickProtocolPacker::packBuffer(Buffer * outputBuffer, unsigned char type, 
  * dataBuffer MUST BE PREALOCATED !
  * 
  */
+ 
 QUICKPROTOCOL_UNPACK_RESULT QuickProtocolPacker::unpackBuffer(Buffer * inputBuffer, unsigned char * type, Buffer * dataBuffer)
 {
     unsigned short dataSize;
@@ -61,6 +62,7 @@ QUICKPROTOCOL_UNPACK_RESULT QuickProtocolPacker::unpackBuffer(Buffer * inputBuff
     
     if(inputBuffer->getSize() < packetSize)
     {
+		printf("GOT %d, WANTED %d\n",inputBuffer->getSize(),dataSize);
         return QUICKPROTOCOL_UNPACK_NOTCOMPLETE;
     }
     Buffer checksumBuffer(inputBuffer->getBuffer(),packetSize-1);
