@@ -34,7 +34,7 @@ void Error::crash(char * text)
     ML_clear_vram();
 
     locate(1,1);
-    Print(text);
+    Print((const unsigned char *)text);
 
     ML_display_vram();
 

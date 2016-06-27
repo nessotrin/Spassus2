@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include <MonochromeLib.h>
 
-#include <algorithm>
+#include "tools/Algorithms.h"
 
 void Renderer::setScreen(Screen * newScreen)
 {
@@ -103,12 +103,12 @@ Renderer::renderBuffer Renderer::clipRectScreen(Coord start, Coord size, unsigne
     renderBuffer newBuffer;
     newBuffer.buffStart.setX(start.getX()<0?-start.getX():0);
     newBuffer.buffStart.setY(start.getY()<0?-start.getY():0);
-    newBuffer.coordStart.setX(std::max(start.getX(),0)+screen->getAbsoluteCoord().getX());
-    newBuffer.coordStart.setY(std::max(start.getY(),0)+screen->getAbsoluteCoord().getY());
-    newBuffer.size.setX(std::min(std::min(size.getX()-newBuffer.buffStart.getX(),
+    newBuffer.coordStart.setX(max(start.getX(),0)+screen->getAbsoluteCoord().getX());
+    newBuffer.coordStart.setY(max(start.getY(),0)+screen->getAbsoluteCoord().getY());
+    newBuffer.size.setX(min(min(size.getX()-newBuffer.buffStart.getX(),
                                           screen->getSize().getX()-newBuffer.coordStart.getX()-newBuffer.buffStart.getX()),
                                  screen->getPhysicalScreen()->getSize().getX()-newBuffer.coordStart.getX()-newBuffer.buffStart.getX()));
-    newBuffer.size.setY(std::min(std::min(size.getY()-newBuffer.buffStart.getY(),
+    newBuffer.size.setY(min(min(size.getY()-newBuffer.buffStart.getY(),
                                           screen->getSize().getY()-newBuffer.coordStart.getY()-newBuffer.buffStart.getY()),
                                  screen->getPhysicalScreen()->getSize().getX()-newBuffer.coordStart.getY()-newBuffer.buffStart.getY()));  
     newBuffer.realSize = size;
@@ -166,7 +166,7 @@ void Renderer::drawLine(Coord start, Coord end, bool color)
     int deltaX = renderEnd.getX() - renderStart.getX();
     int deltaY = renderEnd.getY() - renderStart.getY();
 
-    int loopCount = std::max(abs(deltaX), abs(deltaY));
+    int loopCount = max(abs(deltaX), abs(deltaY));
 
     float addX = deltaX/(float)loopCount;
     float addY = deltaY/(float)loopCount;

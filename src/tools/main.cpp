@@ -42,12 +42,13 @@ int main()
 {
     initCalcuLib(0,5);
     int calcKey[] = {KEY_CTRL_UP,      KEY_CTRL_DOWN,      KEY_CTRL_EXE,         KEY_CTRL_LEFT,      KEY_CTRL_RIGHT};
-    int sfmlKey[] = {sf::Keyboard::Up, sf::Keyboard::Down, sf::Keyboard::Return, sf::Keyboard::Left, sf::Keyboard::Right};
+    #ifdef CALCULIB
+	int sfmlKey[] = {sf::Keyboard::Up, sf::Keyboard::Down, sf::Keyboard::Return, sf::Keyboard::Left, sf::Keyboard::Right};
     registerKeys(calcKey,sfmlKey,5);
-    
+    #endif
     locate(1,1);
     
-    Print("Spassus2");
+    Print((const unsigned char *)"Spassus2");
     locate(1,2);
     
     Renderer globalRenderer;

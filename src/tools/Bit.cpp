@@ -19,8 +19,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "Bit.h"
 
-#include <cstdio>
-
 void Bit::setBit(int id, unsigned char * buffer, bool value)
 {
     int idByte = id/8;
@@ -77,19 +75,6 @@ bool Bit::getBitInvertedOrder(int id, unsigned char * buffer)
     
     
     return buffer[idByte] & (1 << idBit);
-}
-void binary(int n) // TODO: remove me debug
-{
-    int exp = 7;
-    while (exp>= 0) {
-        if (n & (1<<exp))
-            printf("1");
-        else
-            printf("0");
-
-        exp--;
-    }
-printf("\n");
 }
 
 unsigned char Bit::readBitsInBufferAt(int bitStart, int length, int bufferLength, unsigned char * buffer)
