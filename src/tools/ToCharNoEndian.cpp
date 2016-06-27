@@ -41,3 +41,23 @@ void ToCharNoEndian::charToUint(unsigned int * value, unsigned char * toRead)
 {
     *value = (toRead[0]<<0) + (toRead[1]<<8) + (toRead[2]<<16) + (toRead[3]<<24);
 }
+
+
+void ToCharNoEndian::shortToChar(unsigned char * toWrite, short value)
+{
+    toWrite[0] = (value>>0);
+    toWrite[1] = (value>>8);
+}
+void ToCharNoEndian::ushortToChar(unsigned char * toWrite, unsigned short value)
+{
+    toWrite[0] = (value>>0);
+    toWrite[1] = (value>>8);
+}
+void ToCharNoEndian::charToShort(short * value, unsigned char * toRead)
+{
+    *value = (toRead[0]<<0) + (toRead[1]<<8);
+}
+void ToCharNoEndian::charToUshort(unsigned short * value, unsigned char * toRead)
+{
+    *value = (toRead[0]<<0) + (toRead[1]<<8);
+}

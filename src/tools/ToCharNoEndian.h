@@ -28,6 +28,11 @@ public:
     static void charToInt(int * value, unsigned char * toRead);
     static void charToUint(unsigned int * value, unsigned char * toRead);
 
+    static void shortToChar(unsigned char * toWrite, short value);
+    static void ushortToChar(unsigned char * toWrite, unsigned short value);
+    static void charToShort(short * value, unsigned char * toRead);
+    static void charToUshort(unsigned short * value, unsigned char * toRead);
+
 };
 
 #endif // _TOCHARNOENDIAN_H_

@@ -26,14 +26,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "MainMenu.h"
 
 #include "network/PinSocket.h"
-#include "network/PacketQueue.h"
 
 #include "memory/tests/ListTests.h"
-#include "network/tests/PacketQueueTests.h"
-#include "network/tests/PacketMakerTests.h"
 #include "memory/tests/BufferOrganizerTests.h"
 
-#include "network/QuickProtocol.h"
+#include "network/QuickProtocol/QuickProtocol.h"
 
 
 #ifndef CALCULIB
@@ -60,8 +57,6 @@ int main()
     globalRenderer.setScreen(&calcScreen);
 
     testList();
-    testPacketQueue();
-    testPacketMaker();
     testBufferOrganizer();
     
     QuickProtocol testProtocol;
@@ -72,19 +67,8 @@ int main()
     unsigned char testBufferData[64];
     Buffer testBuffer(testBufferData,64);
     
-    printf("INIT...\n");
-    testProtocol.init();
-    printf("CONNECTING...\n");
-    if(testProtocol.connectProtocol(true))
-    {
-        printf("ERROR !\n");
-    }
-    else
-    {
-        printf("DONE !\n");
-    }
     printf("SENDING...\n");
-    if(testProtocol.sendBuffer(&testBuffer))
+    if(testProtocol.sendMessage(0x55,&testBuffer,1000))
     {
         printf("ERROR !\n");
     }
@@ -108,4 +92,3 @@ int main()
 
     return 0;
 }
-
