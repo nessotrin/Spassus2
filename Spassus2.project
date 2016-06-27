@@ -101,26 +101,18 @@
       </VirtualDirectory>
     </VirtualDirectory>
     <VirtualDirectory Name="network">
-      <File Name="src/network/PinSocket.h"/>
-      <File Name="src/network/PinSocket.cpp"/>
-      <File Name="src/network/NetworkSocket.h"/>
-      <File Name="src/network/NetworkTools.cpp"/>
-      <File Name="src/network/NetworkTools.h"/>
-      <File Name="src/network/PacketQueue.h"/>
-      <File Name="src/network/PacketMaker.h"/>
-      <VirtualDirectory Name="tests">
-        <File Name="src/network/tests/PacketQueueTests.cpp"/>
-        <File Name="src/network/tests/PacketQueueTests.h"/>
-        <File Name="src/network/tests/PacketMakerTests.h"/>
-        <File Name="src/network/tests/PacketMakerTests.cpp"/>
-      </VirtualDirectory>
-      <File Name="src/network/PacketMaker.cpp"/>
-      <File Name="src/network/PacketQueue.cpp"/>
-      <File Name="src/network/QuickProtocol.h"/>
-      <File Name="src/network/QuickProtocol.cpp"/>
-      <File Name="src/network/NetworkSocket.cpp"/>
-      <File Name="src/network/NetworkProtocol.h"/>
       <File Name="src/network/NetworkProtocol.cpp"/>
+      <File Name="src/network/NetworkProtocol.h"/>
+      <File Name="src/network/NetworkSocket.cpp"/>
+      <File Name="src/network/NetworkSocket.h"/>
+      <File Name="src/network/PinSocket.cpp"/>
+      <File Name="src/network/PinSocket.h"/>
+      <VirtualDirectory Name="QuickProtocol">
+        <File Name="src/network/QuickProtocol/QuickProtocol.cpp"/>
+        <File Name="src/network/QuickProtocol/QuickProtocol.h"/>
+        <File Name="src/network/QuickProtocol/QuickProtocolPacker.cpp"/>
+        <File Name="src/network/QuickProtocol/QuickProtocolPacker.h"/>
+      </VirtualDirectory>
     </VirtualDirectory>
   </VirtualDirectory>
   <Dependencies Name="Debug"/>
@@ -135,6 +127,48 @@
       </Linker>
       <ResourceCompiler Options=""/>
     </GlobalSettings>
+    <Configuration Name="Calc" CompilerType="clang++" DebuggerType="GNU gdb debugger" Type="Dynamic Library" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-g" C_Options="-g" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="addin" IntermediateDirectory="./build" Command="./build/addin" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="./" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="yes">
+        <Target Name="Clean-Rebuild">make -f Makefile-Calc clean &amp;&amp; make -f Makefile-Calc</Target>
+        <Target Name="Calc-Send">../Tools/UsbConnector/Debug/UsbConnector SEND ../Projects/Spassus2/build/calc/addin.g1a spassus2.g1a fls0</Target>
+        <Target Name="Calc-Clean">make -f Makefile-Calc clean</Target>
+        <Target Name="Calc-Build">ADDIN_NAME=Spassus2 ADDIN_VERSION=0.0.0 make -f Makefile-Calc</Target>
+        <RebuildCommand>make -f Makefile clean &amp;&amp; make -f Makefile</RebuildCommand>
+        <CleanCommand>make -f Makefile clean</CleanCommand>
+        <BuildCommand>make -f Makefile</BuildCommand>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory>/home/hugo/Casio_DEV/NESSCASDK/Make</WorkingDirectory>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no" EnableCpp14="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
     <Configuration Name="Debug" CompilerType="clang++" DebuggerType="GNU gdb debugger" Type="Dynamic Library" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
       <Compiler Options="-g" C_Options="-g" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
@@ -164,7 +198,7 @@
         <SingleFileCommand/>
         <MakefileGenerationCommand/>
         <ThirdPartyToolName>None</ThirdPartyToolName>
-        <WorkingDirectory>/home/hugo/Documents/NESSCASDKV103/Make</WorkingDirectory>
+        <WorkingDirectory>/home/hugo/Casio_DEV/NESSCASDK/Make</WorkingDirectory>
       </CustomBuild>
       <AdditionalRules>
         <CustomPostBuild/>
