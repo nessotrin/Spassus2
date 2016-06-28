@@ -39,6 +39,7 @@ public:
 	void tickHandler();
     void registerHandler(NetworkEventReceiver * receiver, unsigned char type);
     void unregisterHandler(NetworkEventReceiver * receiver, unsigned char type);
+    bool sendMessage(unsigned char type, Buffer * buffer);
     
 private:
 	QuickProtocol protocol;

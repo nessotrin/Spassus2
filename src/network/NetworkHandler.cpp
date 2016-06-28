@@ -31,9 +31,9 @@ void NetworkHandler::tickHandler()
 	unsigned char data[64];
 	Buffer receiveBuffer(data,64);
 	unsigned char type;
-	if(protocol.receiveMessage(&type,&receiveBuffer) == 0)
+	while(protocol.receiveMessage(&type,&receiveBuffer) == 0)
 	{
-		printf("Received message, handling ... (Type %d)\n",type);
+		//printf("Received message, handling ... (Type %d)\n",type);
 		handleEvent(type,&receiveBuffer);
 	}
 }
@@ -82,4 +82,7 @@ void NetworkHandler::unregisterHandler(NetworkEventReceiver * receiver, unsigned
     }
 }
 
-
+bool NetworkHandler::sendMessage(unsigned char type, Buffer * buffer)
+{
+    return protocol.sendMessage(type,buffer,10);
+}

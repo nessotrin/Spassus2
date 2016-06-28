@@ -2,10 +2,19 @@
 <CodeLite_Project Name="Spassus2" InternalType="">
   <Plugins>
     <Plugin Name="qmake">
-      <![CDATA[00010001N0005Debug000000000000]]>
+      <![CDATA[00020001N0004Calc0000000000000001N0005Debug000000000000]]>
     </Plugin>
     <Plugin Name="CMakePlugin">
       <![CDATA[[{
+  "name": "Calc",
+  "enabled": false,
+  "buildDirectory": "build",
+  "sourceDirectory": "$(ProjectPath)",
+  "generator": "",
+  "buildType": "",
+  "arguments": [],
+  "parentProject": ""
+ }, {
   "name": "Debug",
   "enabled": false,
   "buildDirectory": "build",
@@ -52,7 +61,6 @@
     </VirtualDirectory>
     <VirtualDirectory Name="render">
       <File Name="src/render/Renderer.h"/>
-      <File Name="src/render/Renderer.cpp"/>
       <File Name="src/render/Screen.cpp"/>
       <File Name="src/render/Screen.h"/>
     </VirtualDirectory>
@@ -96,6 +104,7 @@
       <File Name="src/gui/MainMenu.h"/>
       <File Name="src/gui/Menu.h"/>
       <File Name="src/gui/MainMenu.cpp"/>
+      <File Name="src/render/Renderer.cpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="ressource">
       <VirtualDirectory Name="bitmap">
@@ -163,7 +172,7 @@
         <SingleFileCommand/>
         <MakefileGenerationCommand/>
         <ThirdPartyToolName>None</ThirdPartyToolName>
-        <WorkingDirectory>/home/hugo/Casio_DEV/NESSCASDK/Make</WorkingDirectory>
+        <WorkingDirectory>/home/hugo/NESSCASDKV105/Make/</WorkingDirectory>
       </CustomBuild>
       <AdditionalRules>
         <CustomPostBuild/>

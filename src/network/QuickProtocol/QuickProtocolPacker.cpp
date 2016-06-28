@@ -43,6 +43,8 @@ bool QuickProtocolPacker::packBuffer(Buffer * outputBuffer, unsigned char type, 
     
     outputBuffer->getBuffer()[1+2+dataBuffer->getSize()] = generatedChecksum;
     
+    outputBuffer->setSize(1+2+dataBuffer->getSize()+1);
+    
     return false;
 }
 
@@ -62,7 +64,12 @@ QUICKPROTOCOL_UNPACK_RESULT QuickProtocolPacker::unpackBuffer(Buffer * inputBuff
     
     if(inputBuffer->getSize() < packetSize)
     {
-		printf("GOT %d, WANTED %d\n",inputBuffer->getSize(),dataSize);
+		//printf("GOT %d, WANTED %d\n",inputBuffer->getSize(),packetSize);
+        if(packetSize > RECEIVEQUEUESIZE)
+        {
+            printf("PACKET BIGGER THAN LIMIT ! (%do)\n",packetSize);
+            return QUICKPROTOCOL_UNPACK_ERROR;
+        }
         return QUICKPROTOCOL_UNPACK_NOTCOMPLETE;
     }
     Buffer checksumBuffer(inputBuffer->getBuffer(),packetSize-1);

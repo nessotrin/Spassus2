@@ -23,9 +23,36 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include <MonochromeLib.h>
 
+void MainMenu::setupMenu(Renderer * newRenderer, KeyboardReader * newKeyboardReader, NetworkHandler * newNetworkHandler)
+{
+    renderer = newRenderer;
+    keyboardReader = newKeyboardReader;
+    networkHandler = newNetworkHandler;
+    dot.setup(renderer,networkHandler,keyboardReader);
+}
+
+char MainMenu::loopMenu()
+{
+    initMenu();
+    stop = 0;
+    while(!stop)
+    {
+        keyboardReader->tick();
+        networkHandler->tickHandler();
+        renderMenu();
+        framerateLimiter.wait();
+        tickCalcuLib();
+    }
+    deinitMenu();
+    return result;
+}
+
 void MainMenu::initMenu()
 {
     printf("Entering main menu\n");
+    
+    dot.init();
+    
     keyboardReader->registerKey(this,KEY_CTRL_UP);
     keyboardReader->registerKey(this,KEY_CTRL_DOWN);
     keyboardReader->registerKey(this,KEY_CTRL_LEFT);
@@ -36,6 +63,9 @@ void MainMenu::initMenu()
 void MainMenu::deinitMenu()
 {
     printf("Exiting main menu\n");
+    
+    dot.deinit();
+    
     keyboardReader->unregisterKey(this,KEY_CTRL_UP);
     keyboardReader->unregisterKey(this,KEY_CTRL_DOWN);
     keyboardReader->unregisterKey(this,KEY_CTRL_LEFT);
@@ -53,7 +83,11 @@ void MainMenu::renderMenu()
     Bdisp_AllClr_VRAM();
     //renderer->drawRect(Coord(coordX,coordY),buffer,Coord(16,8));
     //renderer->drawRect(Coord(0,0),(unsigned char *)mainMenuTexture,Coord(128,64));
-    renderer->drawLine(Coord(9,9),Coord(coordX,coordY),true);
+    
+    //renderer->drawLine(Coord(9,9),Coord(coordX,coordY),true);
+    
+    dot.render();
+    
     //ML_horizontal_line(5,0,10,ML_BLACK);
     Bdisp_PutDisp_DD();
 }
@@ -111,6 +145,6 @@ void MainMenu::keyHandler(int keyId, int keyStatus)
 
     if(keyId == KEY_CTRL_EXE)
     {
-        stop = 1;
+        //stop = 1;
     }
 }

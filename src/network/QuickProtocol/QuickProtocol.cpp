@@ -50,8 +50,10 @@ NETWORK_PROTOCOL_RESULT QuickProtocol::sendMessage(unsigned char type, Buffer * 
         tryTime += SENDRETRYWAITMS;
     }
     
+    //DEBUG - Adds directly to the receive buffer
     if(RECEIVEQUEUESIZE-receiveQueueBuffer.getSize()>=packedBuffer.getSize())
     {
+        //printf("Adding %d\n",packedBuffer.getSize());
         memcpy(receiveQueueBuffer.getBuffer()+receiveQueueBuffer.getSize(),packedBuffer.getBuffer(),packedBuffer.getSize());
         receiveQueueBuffer.setSize(receiveQueueBuffer.getSize()+packedBuffer.getSize());
     }
@@ -70,9 +72,7 @@ NETWORK_PROTOCOL_RESULT QuickProtocol::sendMessage(unsigned char type, Buffer * 
 
 
 NETWORK_PROTOCOL_RESULT QuickProtocol::receiveMessage(unsigned char * type, Buffer * data)
-{
-    updateProtocol();
-    
+{    
     if(receiveQueueBuffer.getSize() < 1+2+1)
     {
         return NETWORK_PROTOCOL_OUT_OF_BUFFER;
@@ -81,6 +81,7 @@ NETWORK_PROTOCOL_RESULT QuickProtocol::receiveMessage(unsigned char * type, Buff
 	QUICKPROTOCOL_UNPACK_RESULT unpackResult = QuickProtocolPacker::unpackBuffer(&receiveQueueBuffer,type,data);
     if(unpackResult == QUICKPROTOCOL_UNPACK_ERROR)
     {
+        removeFromQueue(1+2+1); //TODO: make something less sketchy
         return NETWORK_PROTOCOL_ERROR;
     }
 	else if(unpackResult == QUICKPROTOCOL_UNPACK_NOTCOMPLETE)
@@ -88,6 +89,7 @@ NETWORK_PROTOCOL_RESULT QuickProtocol::receiveMessage(unsigned char * type, Buff
 		return NETWORK_PROTOCOL_OUT_OF_BUFFER;
 	}
     
+    removeFromQueue(1+2+data->getSize()+1);
     
     return NETWORK_PROTOCOL_OK;
 }

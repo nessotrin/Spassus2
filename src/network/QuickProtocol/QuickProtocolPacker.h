@@ -22,6 +22,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "memory/Buffer.h"
 
+#include "QuickProtocol.h"
+
 enum QUICKPROTOCOL_UNPACK_RESULT{
      QUICKPROTOCOL_UNPACK_OK = 0,
      QUICKPROTOCOL_UNPACK_NOTCOMPLETE,

@@ -22,6 +22,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "Menu.h"
 
+#include "world/object/DotObject.h"
+
 class MainMenu : public Menu
 {
 public:
@@ -29,13 +31,21 @@ public:
     void keyHandler(int keyId, int keyStatus);
     void resetMenu();
     
+    //overwrites
+    void setupMenu(Renderer * newRenderer, KeyboardReader * newKeyboardReader, NetworkHandler * networkHandler);
+    char loopMenu();
+    
     enum mainMenuAction 
     {START_GAME = 0,
      QUIT = 1};
     
-protected:
+private:
+    NetworkHandler * networkHandler;
+    
     int coordX = 10;
     int coordY = 10;
+    
+    DotObject dot;
 
     void initMenu();
     void deinitMenu();

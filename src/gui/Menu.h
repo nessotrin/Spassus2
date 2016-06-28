@@ -30,7 +30,7 @@ class Menu : public KeyEventReceiver
 {
 public:
     char loopMenu();
-    void setupMenu(Renderer * newRenderer, KeyboardReader * newKeyboardReaders);
+    void setupMenu(Renderer * newRenderer, KeyboardReader * newKeyboardReader);
 
     virtual void keyHandler(int keyId, int keyStatus) = 0;
     virtual void resetMenu() = 0;

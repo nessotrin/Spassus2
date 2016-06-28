@@ -40,7 +40,7 @@ int main()
 
 #endif
 {
-    initCalcuLib(0,5);
+    initCalcuLib(1,5);
     int calcKey[] = {KEY_CTRL_UP,      KEY_CTRL_DOWN,      KEY_CTRL_EXE,         KEY_CTRL_LEFT,      KEY_CTRL_RIGHT};
     #ifdef CALCULIB
 	int sfmlKey[] = {sf::Keyboard::Up, sf::Keyboard::Down, sf::Keyboard::Return, sf::Keyboard::Left, sf::Keyboard::Right};
@@ -69,7 +69,7 @@ int main()
     Buffer testBuffer(testBufferData,64);
     
     printf("SENDING...\n");
-    if(testProtocol.sendMessage(0x55,&testBuffer,1000))
+    if(testProtocol.sendMessage(55,&testBuffer,1000))
     {
         printf("ERROR !\n");
     }
@@ -97,8 +97,10 @@ int main()
         printf("ERROR\n");        
     }
     */
+    NetworkHandler networkHandler(testProtocol);
+    
     MainMenu mainMenu;
-    mainMenu.setupMenu(&globalRenderer, &globalKeyboardReader);
+    mainMenu.setupMenu(&globalRenderer, &globalKeyboardReader, &networkHandler);
 
     char choice = mainMenu.loopMenu();
 
