@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #define _BUFFERORGANIZER_H_
 
 #include "memory/Buffer.h"
-#include <CalcuLib.h>
+#include <Calculib.h>
 
 enum BUFFER_ORGANIZER_RESULT{
     BUFFER_ORGANIZER_OK = 0,

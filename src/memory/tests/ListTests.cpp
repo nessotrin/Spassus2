@@ -25,12 +25,12 @@ void testList()
     List<int> testList;
     if(testList.getSize() != 0)
     {
-        Error::crash((char *)"A");
+        printf("A");
     }
     testList.add(3);
     if(testList.getSize() != 1)
     {
-        Error::crash((char *)"B");
+        printf("B");
     }
     if(testList.get(0) != 3)
     {

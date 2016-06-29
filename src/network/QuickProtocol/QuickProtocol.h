@@ -43,7 +43,7 @@ class QuickProtocol : public NetworkProtocol
 public:
     QuickProtocol();
 
-    unsigned char receiveQueueData[RECEIVEQUEUESIZE];
+    unsigned char receiveQueueData[RECEIVEQUEUESIZE]; //TODO: set as private
     Buffer receiveQueueBuffer;
     
     NETWORK_PROTOCOL_RESULT sendMessage(unsigned char type, Buffer * dataBuffer, int timeout);

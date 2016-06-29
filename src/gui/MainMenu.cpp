@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "ressource/bitmap/MainMenuBitmap.h"
 
-#include <MonochromeLib.h>
+//#include <MonochromeLib.h>
 
 void MainMenu::setupMenu(Renderer * newRenderer, KeyboardReader * newKeyboardReader, NetworkHandler * newNetworkHandler)
 {
@@ -29,6 +29,7 @@ void MainMenu::setupMenu(Renderer * newRenderer, KeyboardReader * newKeyboardRea
     keyboardReader = newKeyboardReader;
     networkHandler = newNetworkHandler;
     dot.setup(renderer,networkHandler,keyboardReader);
+    framerateLimiter.changeFramerate(20);
 }
 
 char MainMenu::loopMenu()
@@ -41,7 +42,7 @@ char MainMenu::loopMenu()
         networkHandler->tickHandler();
         renderMenu();
         framerateLimiter.wait();
-        tickCalcuLib();
+        //tickCalcuLib();
     }
     deinitMenu();
     return result;

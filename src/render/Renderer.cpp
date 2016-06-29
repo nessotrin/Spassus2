@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "tools/Bit.h"
 #include "tools/Geometry.h"
 
-#include <MonochromeLib.h>
+//#include <MonochromeLib.h>
 
 #include "tools/Algorithms.h"
 

@@ -28,7 +28,7 @@ char Menu::loopMenu()
         keyboardReader->tick();
         renderMenu();
         framerateLimiter.wait();
-        tickCalcuLib();
+        //tickCalcuLib();
     }
     deinitMenu();
     return result;

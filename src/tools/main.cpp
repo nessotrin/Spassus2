@@ -17,9 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-#include <CalcuLib.h>
-
-#include <MonochromeLib.h>
+#include <Calculib.h>
 
 #include <tools/GameInstance.h>
 
@@ -40,12 +38,19 @@ int main()
 
 #endif
 {
-    initCalcuLib(1,5);
-    int calcKey[] = {KEY_CTRL_UP,      KEY_CTRL_DOWN,      KEY_CTRL_EXE,         KEY_CTRL_LEFT,      KEY_CTRL_RIGHT};
-    #ifdef CALCULIB
-	int sfmlKey[] = {sf::Keyboard::Up, sf::Keyboard::Down, sf::Keyboard::Return, sf::Keyboard::Left, sf::Keyboard::Right};
-    registerKeys(calcKey,sfmlKey,5);
-    #endif
+    //initCalcuLib(1,5);
+    //int calcKey[] = {KEY_CTRL_UP,      KEY_CTRL_DOWN,      KEY_CTRL_EXE,         KEY_CTRL_LEFT,      KEY_CTRL_RIGHT};
+    //#ifdef CALCULIB
+	//int sfmlKey[] = {sf::Keyboard::Up, sf::Keyboard::Down, sf::Keyboard::Return, sf::Keyboard::Left, sf::Keyboard::Right};
+    //registerKeys(calcKey,sfmlKey,5);
+    //#endif
+    calculibInit();
+    
+    CalculibKeyboard::calculibMapKey(KEY_CTRL_UP,sf::Keyboard::Up);
+    CalculibKeyboard::calculibMapKey(KEY_CTRL_DOWN,sf::Keyboard::Down);
+    CalculibKeyboard::calculibMapKey(KEY_CTRL_LEFT,sf::Keyboard::Left);
+    CalculibKeyboard::calculibMapKey(KEY_CTRL_RIGHT,sf::Keyboard::Right);
+    CalculibKeyboard::calculibMapKey(KEY_CTRL_EXE,sf::Keyboard::Return);
     locate(1,1);
     
     Print((const unsigned char *)"Spassus2");
@@ -62,6 +67,12 @@ int main()
     
     QuickProtocol testProtocol;
     PinSocket socket;
+    int i = 5;
+    while(printf("socket.connect()") != 0x3333 && socket.connect() && i)
+    {
+        Sleep(1000);
+        i--;
+    }
     testProtocol.setSocket(&socket);
     
     

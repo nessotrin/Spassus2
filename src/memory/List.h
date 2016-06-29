@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #ifndef _LIST_H_
 #define _LIST_H_
 
-#include <CalcuLib.h>
+#include <Calculib.h>
 
 #define MAX_LOST_LIMIT 100
 #define MAX_PREALLOC_SIZE 100
@@ -56,7 +56,7 @@ template <class T> T List<T>::get(unsigned int id)
 {
     if(id >= size)
     {
-        Error::crash((char *)"List get  out of range id");
+        printf("List get  out of range id");
     }
     return table[id];
 }
@@ -65,7 +65,7 @@ template <class T> void List<T>::set(unsigned int id, T data)
 {
     if(id >= size)
     {
-        Error::crash((char *)"List get  out of range id");
+        printf("List get  out of range id");
     }
     table[id] = data;
 }
@@ -112,7 +112,7 @@ template <class T> void List<T>::changeAllocSize(int countToAdd)
         table = (T*)realloc(table,allocSize*sizeof(T));
         if(table == NULL)
         {
-            Error::crash((char *)"List changeSize Out of memory");
+            printf("List changeSize Out of memory");
         }
     }
     else

@@ -17,7 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-#include <CalcuLib.h>
+#include <Calculib.h>
 
 #include "QuickProtocolPacker.h"
 #include "tools/TypeLimits.h"
@@ -61,13 +61,24 @@ QUICKPROTOCOL_UNPACK_RESULT QuickProtocolPacker::unpackBuffer(Buffer * inputBuff
     ToCharNoEndian::charToUshort(&dataSize,inputBuffer->getBuffer()+1);
     
     int packetSize = 1+2+dataSize+1;
-    
+
+    #define min(a,b) (((a)<(b)?(a):(b)))
+
+    int dumpSize = min(64,inputBuffer->getSize());
+
+
     if(inputBuffer->getSize() < packetSize)
     {
 		//printf("GOT %d, WANTED %d\n",inputBuffer->getSize(),packetSize);
         if(packetSize > RECEIVEQUEUESIZE)
         {
-            printf("PACKET BIGGER THAN LIMIT ! (%do)\n",packetSize);
+            printf("FAIL-DUMP(%d): ",64);
+            for(int i = 0 ; i < 64 ; i++)
+            {
+                printf("%d ",inputBuffer->getBuffer()[i]);
+            }
+            printf("\n");
+            printf("PACKET BIGGER THAN LIMIT ! (%do) (type %d)\n",packetSize,inputBuffer->getBuffer()[0]);
             return QUICKPROTOCOL_UNPACK_ERROR;
         }
         return QUICKPROTOCOL_UNPACK_NOTCOMPLETE;

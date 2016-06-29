@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "FramerateMonitor.h"
 
-#include "CalcuLib.h"
+#include "Calculib.h"
 
 void FramerateMonitor::tick()
 {

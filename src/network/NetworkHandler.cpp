@@ -31,6 +31,8 @@ void NetworkHandler::tickHandler()
 	unsigned char data[64];
 	Buffer receiveBuffer(data,64);
 	unsigned char type;
+
+
 	while(protocol.receiveMessage(&type,&receiveBuffer) == 0)
 	{
 		//printf("Received message, handling ... (Type %d)\n",type);

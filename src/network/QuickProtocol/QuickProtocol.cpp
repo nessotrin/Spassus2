@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "QuickProtocol.h"
 #include "QuickProtocol/QuickProtocolPacker.h"
 
-#include "CalcuLib.h" //Sleep
+#include "Calculib.h" //Sleep
 
 QuickProtocol::QuickProtocol()
 {
@@ -73,7 +73,7 @@ NETWORK_PROTOCOL_RESULT QuickProtocol::sendMessage(unsigned char type, Buffer * 
 
 NETWORK_PROTOCOL_RESULT QuickProtocol::receiveMessage(unsigned char * type, Buffer * data)
 {    
-    if(receiveQueueBuffer.getSize() < 1+2+1)
+    if(receiveQueueBuffer.getSize() < 1+2+1) // Smallest possible
     {
         return NETWORK_PROTOCOL_OUT_OF_BUFFER;
     }
@@ -81,7 +81,10 @@ NETWORK_PROTOCOL_RESULT QuickProtocol::receiveMessage(unsigned char * type, Buff
 	QUICKPROTOCOL_UNPACK_RESULT unpackResult = QuickProtocolPacker::unpackBuffer(&receiveQueueBuffer,type,data);
     if(unpackResult == QUICKPROTOCOL_UNPACK_ERROR)
     {
-        removeFromQueue(1+2+1); //TODO: make something less sketchy
+        //removeFromQueue(1+2+1); //TODO: make something less sketchy
+        receiveQueueBuffer.setSize(0); //trash the queue
+        
+        
         return NETWORK_PROTOCOL_ERROR;
     }
 	else if(unpackResult == QUICKPROTOCOL_UNPACK_NOTCOMPLETE)
@@ -89,6 +92,7 @@ NETWORK_PROTOCOL_RESULT QuickProtocol::receiveMessage(unsigned char * type, Buff
 		return NETWORK_PROTOCOL_OUT_OF_BUFFER;
 	}
     
+
     removeFromQueue(1+2+data->getSize()+1);
     
     return NETWORK_PROTOCOL_OK;
@@ -102,16 +106,15 @@ NETWORK_PROTOCOL_RESULT QuickProtocol::receiveMessage(unsigned char * type, Buff
  */
 NETWORK_PROTOCOL_RESULT QuickProtocol::updateProtocol()
 {
-    unsigned char data[RECEIVEQUEUESIZE];
-    Buffer inputBuffer(data,RECEIVEQUEUESIZE-receiveQueueBuffer.getSize());
+    Buffer inputBuffer(receiveQueueBuffer.getBuffer()+receiveQueueBuffer.getSize(), //Directly pointing to the buffer
+                       RECEIVEQUEUESIZE-receiveQueueBuffer.getSize());
     
     if(socket->readIn(&inputBuffer) != NETWORK_PROTOCOL_OK)
     {
         return NETWORK_PROTOCOL_ERROR;
     }
     
-    memcpy(receiveQueueBuffer.getBuffer()+receiveQueueBuffer.getSize(),inputBuffer.getBuffer(),inputBuffer.getSize());
-    
+    //manually set size
     receiveQueueBuffer.setSize(receiveQueueBuffer.getSize()+inputBuffer.getSize());
     
     return NETWORK_PROTOCOL_OK;
@@ -119,6 +122,6 @@ NETWORK_PROTOCOL_RESULT QuickProtocol::updateProtocol()
 
 void QuickProtocol::removeFromQueue(int size)
 {
-    memcpy(receiveQueueBuffer.getBuffer(),receiveQueueBuffer.getBuffer()+size,receiveQueueBuffer.getSize()-size);
+    memmove(receiveQueueBuffer.getBuffer(),receiveQueueBuffer.getBuffer()+size,receiveQueueBuffer.getSize()-size);
     receiveQueueBuffer.setSize(receiveQueueBuffer.getSize()-size);
 }

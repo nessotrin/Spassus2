@@ -172,7 +172,7 @@
         <SingleFileCommand/>
         <MakefileGenerationCommand/>
         <ThirdPartyToolName>None</ThirdPartyToolName>
-        <WorkingDirectory>/home/hugo/NESSCASDKV105/Make/</WorkingDirectory>
+        <WorkingDirectory>/home/hugo/NESSCASDK/Make/</WorkingDirectory>
       </CustomBuild>
       <AdditionalRules>
         <CustomPostBuild/>

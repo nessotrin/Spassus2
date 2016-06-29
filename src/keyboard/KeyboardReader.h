@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "keyboard/KeyboardSubscription.h"
 #include "memory/List.h"
 
-#include <CalcuLib.h>
+#include <Calculib.h>
 
 class KeyboardReader
 {

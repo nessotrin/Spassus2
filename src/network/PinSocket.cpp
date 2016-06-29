@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "PinSocket.h"
 
-#include <CalcuLib.h>
+#include <Calculib.h>
 
 NETWORK_SOCKET_RESULT PinSocket::writeOut(Buffer * toSend)
 {
@@ -30,7 +30,7 @@ NETWORK_SOCKET_RESULT PinSocket::writeOut(Buffer * toSend)
     
     unsigned int retry = 10;
     
-    while(retry)
+    while(retry) //TODO: WTF logic is this ?
     {
         switch (Serial_WriteBytes(toSend->getBuffer(),toSend->getSize()))
         {
@@ -38,7 +38,10 @@ NETWORK_SOCKET_RESULT PinSocket::writeOut(Buffer * toSend)
                 return NETWORK_SOCKET_OK;
                 break;
             case 3:
-                connectionLost();
+                if(isConnected)
+                {
+                    connectionLost();
+                }
                 if(isConnected == true)//got reconnected
                 {
                     retry--;
@@ -73,7 +76,10 @@ NETWORK_SOCKET_RESULT PinSocket::readIn(Buffer * inputBuffer)
                 return NETWORK_SOCKET_OK;
                 break;
             case 3:
-                connectionLost();
+                if(isConnected)
+                {
+                    connectionLost();                    
+                }
                 if(isConnected == true)//got reconnected
                 {
                     retry--;
@@ -105,7 +111,7 @@ NETWORK_SOCKET_RESULT PinSocket::connect()
 
 NETWORK_SOCKET_RESULT PinSocket::disconnect(bool discardWaitingData)
 {
-    //Serial_Close(discardWaitingData);
+    Serial_Close(discardWaitingData);
     return NETWORK_SOCKET_OK;
 }
 
