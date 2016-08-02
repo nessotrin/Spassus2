@@ -29,11 +29,11 @@ public:
     NETWORK_SOCKET_RESULT writeOut(Buffer * toSend);
     NETWORK_SOCKET_RESULT readIn(Buffer * inputBuffer);
     unsigned int getWaitingSize();
-    NETWORK_SOCKET_RESULT disconnect(bool discardWaitingData);
+    NETWORK_SOCKET_RESULT disconnect(bool doNotWaitForData);
     NETWORK_SOCKET_RESULT connect();
 private:
     void connectionLost();
-    void restartConnection();
+    void reconnect();
 };
 
 #endif

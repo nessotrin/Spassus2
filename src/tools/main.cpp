@@ -45,6 +45,7 @@ int main()
     //registerKeys(calcKey,sfmlKey,5);
     //#endif
     calculibInit();
+/*
     
     CalculibKeyboard::calculibMapKey(KEY_CTRL_UP,sf::Keyboard::Up);
     CalculibKeyboard::calculibMapKey(KEY_CTRL_DOWN,sf::Keyboard::Down);
@@ -61,66 +62,93 @@ int main()
     KeyboardReader globalKeyboardReader;
     
     globalRenderer.setScreen(&calcScreen);
-
     testList();
     testBufferOrganizer();
+*/
+    //QuickProtocol testProtocol;
     
-    QuickProtocol testProtocol;
     PinSocket socket;
+    
     int i = 5;
-    while(printf("socket.connect()") != 0x3333 && socket.connect() && i)
+    while(printf("socket.connect()") != 0x3333 && socket.connect() && i) //May I burn in hell for this condition
     {
         Sleep(1000);
         i--;
     }
-    testProtocol.setSocket(&socket);
     
-    
+    //testProtocol.setSocket(&socket);
+
+
+
     unsigned char testBufferData[64];
     Buffer testBuffer(testBufferData,64);
+    for(int i = 0 ; i < 64 ; i++)
+    {
+        testBufferData[i] = 0;
+    }
     
-    printf("SENDING...\n");
-    if(testProtocol.sendMessage(55,&testBuffer,1000))
+    while(1)
     {
-        printf("ERROR !\n");
+        /*
+        testProtocol.updateProtocol();
+        printf("SENDING...\n");
+        if(testProtocol.sendMessage(55,&testBuffer,1000))
+        {
+            printf("ERROR !\n");
+        }
+        else
+        {
+            printf("DONE...\n");        
+        }        
+      
+        Sleep(1000);
+      
+        unsigned char type;
+        printf("RECEIVING...\n");
+        NETWORK_PROTOCOL_RESULT result = testProtocol.receiveMessage(&type,&testBuffer);
+        if(result == NETWORK_PROTOCOL_OK && type == 0x55)
+        {
+            printf("DONE  !\n");
+        }
+        else if (result == NETWORK_PROTOCOL_OUT_OF_BUFFER)
+        {
+            printf("NO DATA - ERROR !\n");
+        }
+        else
+        {
+            printf("ERROR\n");        
+        }
+        
+        */
+        /*
+        for(int i = 0 ; i < 5 ; i++)
+        {
+            unsigned char config[] = {0, 5, 0, 0, 0, 0};
+            Serial_Open(config);
+            Sleep(1000);
+        }
+        */
+        printf("Writing ...\n");
+        //Serial_WriteBytes(testBuffer.getBuffer(),testBuffer.getSize());
+        testBuffer.setSize(64);
+        socket.writeOut(&testBuffer);
+        socket.readIn(&testBuffer);
+        Sleep(1000);
+        
     }
-    else
-    {
-        printf("DONE...\n");        
-    }
-	unsigned char type;
-	
-	
-	
-	/*
-	printf("RECEIVING...\n");
-	NETWORK_PROTOCOL_RESULT result = testProtocol.receiveMessage(&type,&testBuffer);
-	if(result == NETWORK_PROTOCOL_OK && type == 0x55)
-    {
-        printf("DONE  !\n");
-    }
-	else if (result == NETWORK_PROTOCOL_OUT_OF_BUFFER)
-	{
-		printf("NO DATA - ERROR !\n");
-	}
-    else
-    {
-        printf("ERROR\n");        
-    }
-    */
-    NetworkHandler networkHandler(testProtocol);
+    //NetworkHandler networkHandler(testProtocol);
     
-    MainMenu mainMenu;
-    mainMenu.setupMenu(&globalRenderer, &globalKeyboardReader, &networkHandler);
-
-    char choice = mainMenu.loopMenu();
+    //MainMenu mainMenu;
+    //mainMenu.setupMenu(&globalRenderer, &globalKeyboardReader, &networkHandler);
+/*
+    char choice;// = mainMenu.loopMenu();
 
     if(choice == MainMenu::mainMenuAction::START_GAME)
     {
         GameInstance gameInstance(&globalRenderer, &globalKeyboardReader);
         gameInstance.run();
     }
-
+*/
 
     return 0;
 }

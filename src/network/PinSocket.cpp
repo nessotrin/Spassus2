@@ -28,9 +28,9 @@ NETWORK_SOCKET_RESULT PinSocket::writeOut(Buffer * toSend)
         return NETWORK_SOCKET_OUT_OF_BUFFER;
     }
     
-    unsigned int retry = 10;
+    unsigned int tryCount = 0;
     
-    while(retry) //TODO: WTF logic is this ?
+    while(tryCount < 10) //TODO: WTF logic is this ?
     {
         switch (Serial_WriteBytes(toSend->getBuffer(),toSend->getSize()))
         {
@@ -38,17 +38,23 @@ NETWORK_SOCKET_RESULT PinSocket::writeOut(Buffer * toSend)
                 return NETWORK_SOCKET_OK;
                 break;
             case 3:
+                printf("error: serial is disconnected !\n");
                 if(isConnected)
                 {
                     connectionLost();
-                }
-                if(isConnected == true)//got reconnected
-                {
-                    retry--;
+                    if(autoReconnect)
+                    {
+                        reconnect();
+                        if(isConnected == true)//got reconnected
+                        {
+                            tryCount++;
+                        }
+                    }
                 }
             case 2:
             default:;
-            return NETWORK_SOCKET_ERROR;
+                printf("Serial ERROR !\n");
+                return NETWORK_SOCKET_ERROR;
         }
     
     }
@@ -65,9 +71,9 @@ NETWORK_SOCKET_RESULT PinSocket::readIn(Buffer * inputBuffer)
 
     short readSizeShort;
     
-    unsigned int retry = 10;
+    unsigned int tryCount = 0;
     
-    while(retry)
+    while(tryCount < 10)
     {
         switch (Serial_ReadBytes(inputBuffer->getBuffer(), inputBuffer->getSize(), &readSizeShort))
         {
@@ -76,15 +82,20 @@ NETWORK_SOCKET_RESULT PinSocket::readIn(Buffer * inputBuffer)
                 return NETWORK_SOCKET_OK;
                 break;
             case 3:
-                if(isConnected)
+                printf("error: serial is disconnected !\n");
+                if(isConnected) //status says connected but serial says it's not
                 {
-                    connectionLost();                    
+                    connectionLost(); //signals the change and try to reconnect
+                    if(autoReconnect)
+                    {
+                        reconnect();
+                        if(isConnected == true)//got reconnected
+                        {
+                            tryCount++;
+                        }
+                    }
                 }
-                if(isConnected == true)//got reconnected
-                {
-                    retry--;
-                }
-            case 2:
+                case 2:
             default:;
                 return NETWORK_SOCKET_ERROR;
         }
@@ -109,9 +120,9 @@ NETWORK_SOCKET_RESULT PinSocket::connect()
     return NETWORK_SOCKET_OK;
 }
 
-NETWORK_SOCKET_RESULT PinSocket::disconnect(bool discardWaitingData)
+NETWORK_SOCKET_RESULT PinSocket::disconnect(bool doNotWaitForData)
 {
-    Serial_Close(discardWaitingData);
+    Serial_Close(doNotWaitForData);
     return NETWORK_SOCKET_OK;
 }
 
@@ -119,13 +130,9 @@ void PinSocket::connectionLost()
 {
     printf("connection lost\n");
     isConnected = false;
-    if(autoReconnect)
-    {
-        restartConnection();
-    }
 }
 
-void PinSocket::restartConnection()
+void PinSocket::reconnect()
 {
     printf("restarting connection \n");
     disconnect(true);

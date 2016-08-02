@@ -39,7 +39,7 @@ char MainMenu::loopMenu()
     while(!stop)
     {
         keyboardReader->tick();
-        networkHandler->tickHandler();
+      //  networkHandler->tickHandler();
         renderMenu();
         framerateLimiter.wait();
         //tickCalcuLib();

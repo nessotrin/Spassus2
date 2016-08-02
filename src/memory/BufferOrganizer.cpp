@@ -15,9 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-*/
-
-#include "BufferOrganizer.h"
+*/#include "BufferOrganizer.h"
 
 #include <Calculib.h>
 
@@ -61,6 +59,7 @@ bool BufferOrganizer::allocOrganizer()
     {
         bufferPresence[i] = 0;
     }
+
     
     return false;
 }
@@ -132,7 +131,7 @@ int BufferOrganizer::searchForId(unsigned int id)
 {
     for(int i = 0 ; i < bufferCount ; i++)
     {
-        if(bufferId[i] == id && bufferPresence[i] == 1)
+        if(bufferPresence[i] == 1 && bufferId[i] == id)
         {
             return i;
         }

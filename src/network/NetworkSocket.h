@@ -37,7 +37,7 @@ public:
     virtual NETWORK_SOCKET_RESULT writeOut(Buffer * toSend) = 0;
     virtual NETWORK_SOCKET_RESULT readIn(Buffer * inputBuffer) = 0;
     virtual unsigned int getWaitingSize() = 0;
-    virtual NETWORK_SOCKET_RESULT disconnect(bool discardWaitingData) = 0;
+    virtual NETWORK_SOCKET_RESULT disconnect(bool doNotWaitForData) = 0;
     virtual NETWORK_SOCKET_RESULT connect() = 0;
   
 };

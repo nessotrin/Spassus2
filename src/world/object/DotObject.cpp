@@ -66,6 +66,7 @@ void DotObject::keyHandler(int keyId, int keyStatus)
     data[1] = y;
     Buffer toSend(data,2);
     networkHandler->sendMessage(0x1,&toSend);
+    printf("Sending ...\n");
 }
 
 void DotObject::tick()

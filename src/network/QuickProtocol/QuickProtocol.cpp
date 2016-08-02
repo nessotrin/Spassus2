@@ -36,6 +36,7 @@ NETWORK_PROTOCOL_RESULT QuickProtocol::sendMessage(unsigned char type, Buffer * 
     
     if(QuickProtocolPacker::packBuffer(&packedBuffer,type,dataBuffer))
     {
+        printf("Packing error ...\n");
         return NETWORK_PROTOCOL_ERROR;
     }
     
@@ -43,26 +44,23 @@ NETWORK_PROTOCOL_RESULT QuickProtocol::sendMessage(unsigned char type, Buffer * 
     NETWORK_SOCKET_RESULT result;
     result = socket->writeOut(&packedBuffer);
     int tryTime = 0;
-    while(result == NETWORK_SOCKET_OUT_OF_BUFFER && tryTime >= timeout)
+    while(result == NETWORK_SOCKET_OUT_OF_BUFFER && tryTime < timeout)
     {
         result = socket->writeOut(&packedBuffer);
         Sleep(SENDRETRYWAITMS);
         tryTime += SENDRETRYWAITMS;
     }
     
-    //DEBUG - Adds directly to the receive buffer
-    if(RECEIVEQUEUESIZE-receiveQueueBuffer.getSize()>=packedBuffer.getSize())
-    {
-        //printf("Adding %d\n",packedBuffer.getSize());
-        memcpy(receiveQueueBuffer.getBuffer()+receiveQueueBuffer.getSize(),packedBuffer.getBuffer(),packedBuffer.getSize());
-        receiveQueueBuffer.setSize(receiveQueueBuffer.getSize()+packedBuffer.getSize());
-    }
-    
-
-    
-    
     if(result != NETWORK_SOCKET_OK)
     {
+        if(result == NETWORK_SOCKET_OUT_OF_BUFFER)
+        {
+            printf("No space in buffer !\n");
+        }
+        else
+        {
+            printf("Network error !\n");
+        }
         return NETWORK_PROTOCOL_ERROR;
     }
     
@@ -81,8 +79,7 @@ NETWORK_PROTOCOL_RESULT QuickProtocol::receiveMessage(unsigned char * type, Buff
 	QUICKPROTOCOL_UNPACK_RESULT unpackResult = QuickProtocolPacker::unpackBuffer(&receiveQueueBuffer,type,data);
     if(unpackResult == QUICKPROTOCOL_UNPACK_ERROR)
     {
-        //removeFromQueue(1+2+1); //TODO: make something less sketchy
-        receiveQueueBuffer.setSize(0); //trash the queue
+        receiveQueueBuffer.setSize(0); //trash the queue TODO: recovery ?
         
         
         return NETWORK_PROTOCOL_ERROR;
@@ -109,12 +106,24 @@ NETWORK_PROTOCOL_RESULT QuickProtocol::updateProtocol()
     Buffer inputBuffer(receiveQueueBuffer.getBuffer()+receiveQueueBuffer.getSize(), //Directly pointing to the buffer
                        RECEIVEQUEUESIZE-receiveQueueBuffer.getSize());
     
-    if(socket->readIn(&inputBuffer) != NETWORK_PROTOCOL_OK)
+    NETWORK_SOCKET_RESULT result = socket->readIn(&inputBuffer);
+    
+    if(result != NETWORK_SOCKET_OUT_OF_BUFFER)
+    {
+        return NETWORK_PROTOCOL_OK;
+    }
+    else if(result != NETWORK_PROTOCOL_OK) //ERROR
     {
         return NETWORK_PROTOCOL_ERROR;
     }
     
-    //manually set size
+    if(inputBuffer.getSize() <= 0)
+    {
+        printf("BUG: Data but no data !\n");
+        return NETWORK_PROTOCOL_ERROR;
+    }
+    
+    //manually sync the new size
     receiveQueueBuffer.setSize(receiveQueueBuffer.getSize()+inputBuffer.getSize());
     
     return NETWORK_PROTOCOL_OK;
