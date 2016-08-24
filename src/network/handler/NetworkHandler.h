@@ -27,14 +27,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "NetworkEventSubscription.h"
 #include "NetworkEventReceiver.h"
 
-#include "network/QuickProtocol/QuickProtocol.h"
-
-//TODO: Fuse QuickProtocol and DataProtocol functions to a common NetworkProtocol and allow the choice HERE 
+#include <network/protocols/NetworkProtocol.h>
 
 class NetworkHandler
 {
 public:
-	NetworkHandler(QuickProtocol newProtocol);
+	NetworkHandler(NetworkProtocol * newProtocol);
 
 	void tickHandler();
     void registerHandler(NetworkEventReceiver * receiver, unsigned char type);
@@ -42,7 +40,7 @@ public:
     bool sendMessage(unsigned char type, Buffer * buffer);
     
 private:
-	QuickProtocol protocol;
+	NetworkProtocol * protocol;
     List<NetworkEventSubscription> subscriptionList;
 
     void handleEvent(unsigned char type, Buffer * buffer);

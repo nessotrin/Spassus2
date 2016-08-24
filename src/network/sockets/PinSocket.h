@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #ifndef _PIN_SOCKET_H_
 #define _PIN_SOCKET_H_
 
-#include "network/NetworkSocket.h"
+#include <network/sockets/NetworkSocket.h>
 
 class PinSocket : public NetworkSocket
 {

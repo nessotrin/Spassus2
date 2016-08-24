@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "memory/Buffer.h"
 
-#include "network/NetworkProtocol.h"
+#include <network/protocols/NetworkProtocol.h>
 
 //TODO:SET CORRECTLY DATA SIZE (512)
 
@@ -40,16 +40,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class QuickProtocol : public NetworkProtocol
 {
-public:
-    QuickProtocol();
-
+private:
     unsigned char receiveQueueData[RECEIVEQUEUESIZE]; //TODO: set as private
     Buffer receiveQueueBuffer;
+    void removeFromQueue(unsigned int size);
+    
+public:
+    QuickProtocol();
     
     NETWORK_PROTOCOL_RESULT sendMessage(unsigned char type, Buffer * dataBuffer, int timeout);
     NETWORK_PROTOCOL_RESULT receiveMessage(unsigned char * type, Buffer * dataBuffer);
     NETWORK_PROTOCOL_RESULT updateProtocol();
-    void removeFromQueue(unsigned int size);
 
 };
 

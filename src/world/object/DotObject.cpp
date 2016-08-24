@@ -6,7 +6,7 @@ void DotObject::init()
 {
     x = 0;
     y = 0;
-    networkHandler->registerHandler(this,0x1);
+    handler->registerHandler(this,0x1);
     keyboardReader->registerKey(this,KEY_CTRL_UP);
     keyboardReader->registerKey(this,KEY_CTRL_DOWN);
     keyboardReader->registerKey(this,KEY_CTRL_LEFT);
@@ -15,7 +15,7 @@ void DotObject::init()
 
 void DotObject::deinit()
 {
-    networkHandler->unregisterHandler(this,0x1);
+    handler->unregisterHandler(this,0x1);
     keyboardReader->unregisterKey(this,KEY_CTRL_UP);
     keyboardReader->unregisterKey(this,KEY_CTRL_DOWN);
     keyboardReader->unregisterKey(this,KEY_CTRL_LEFT);
@@ -66,7 +66,7 @@ void DotObject::keyHandler(unsigned short keyId, bool keyStatus)
     data[0] = (unsigned char)x;
     data[1] = (unsigned char)y;
     Buffer toSend(data,2);
-    networkHandler->sendMessage(0x1,&toSend);
+    handler->sendMessage(0x1,&toSend);
     printf("Sending ...\n");
 }
 
@@ -112,6 +112,6 @@ void DotObject::render(Screen * screen)
 
 void DotObject::setup(NetworkHandler * newNetworkHandler, KeyboardReader * newKeyboardReader)
 {
-    networkHandler = newNetworkHandler;
+    handler = newNetworkHandler;
     keyboardReader = newKeyboardReader;
 }

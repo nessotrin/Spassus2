@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 #include "QuickProtocol.h"
-#include "QuickProtocol/QuickProtocolPacker.h"
+#include "QuickProtocolPacker.h"
 
 #include "Calculib.h" //Sleep
 
@@ -30,7 +30,7 @@ QuickProtocol::QuickProtocol()
 
 NETWORK_PROTOCOL_RESULT QuickProtocol::sendMessage(unsigned char type, Buffer * dataBuffer, int timeout)
 {
-    unsigned char data[512];
+    unsigned char data[512]; //TODO: set limits
     Buffer packedBuffer(data,512);
     
     
@@ -42,7 +42,7 @@ NETWORK_PROTOCOL_RESULT QuickProtocol::sendMessage(unsigned char type, Buffer * 
     
     
     NETWORK_SOCKET_RESULT result;
-    result = socket->writeOut(&packedBuffer);
+    result = socket->writeOut(&packedBuffer); //TODO: in socket timeout sysyem
     int tryTime = 0;
     while(result == NETWORK_SOCKET_OUT_OF_BUFFER && tryTime < timeout)
     {

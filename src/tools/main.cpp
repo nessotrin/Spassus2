@@ -24,12 +24,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <gui/MainMenuGui.h>
 #include <tools/FramerateLimiter.h>
 
-#include "network/PinSocket.h"
+#include "network/sockets/PinSocket.h"
 
 #include "memory/tests/ListTests.h"
 #include "memory/tests/BufferOrganizerTests.h"
 
-#include "network/QuickProtocol/QuickProtocol.h"
+#include "network/protocols/quick/QuickProtocol.h"
 
 
 #ifndef CALCULIB
@@ -39,12 +39,6 @@ int main()
 
 #endif
 {
-    //initCalcuLib(1,5);
-    //int calcKey[] = {KEY_CTRL_UP,      KEY_CTRL_DOWN,      KEY_CTRL_EXE,         KEY_CTRL_LEFT,      KEY_CTRL_RIGHT};
-    //#ifdef CALCULIB
-	//int sfmlKey[] = {sf::Keyboard::Up, sf::Keyboard::Down, sf::Keyboard::Return, sf::Keyboard::Left, sf::Keyboard::Right};
-    //registerKeys(calcKey,sfmlKey,5);
-    //#endif
     calculibInit();
 
     
@@ -135,12 +129,12 @@ int main()
         Sleep(1000);
         
     }
-    NetworkHandler networkHandler(testProtocol);
+    NetworkHandler handler(&testProtocol);
     
     
     FramerateLimiter limiter(30);
     MainMenuGui mainMenu;
-    mainMenu.setNetHandler(&networkHandler);
+    mainMenu.setNetHandler(&handler);
     mainMenu.init(&globalKeyboardReader);
     while(!mainMenu.isValidated())
     {

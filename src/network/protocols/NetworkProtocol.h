@@ -41,7 +41,9 @@ public:
     void setSocket(NetworkSocket * newSocket);
     
     virtual NETWORK_PROTOCOL_RESULT updateProtocol() = 0;
-    
+    virtual NETWORK_PROTOCOL_RESULT sendMessage(unsigned char type, Buffer * dataBuffer, int timeout) = 0;
+    virtual NETWORK_PROTOCOL_RESULT receiveMessage(unsigned char * type, Buffer * dataBuffer) = 0;
+
     
 
 };

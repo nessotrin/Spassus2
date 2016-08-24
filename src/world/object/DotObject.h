@@ -3,8 +3,8 @@
 
 #include "Object.h"
 
-#include "network/NetworkEventReceiver.h"
-#include "network/NetworkHandler.h"
+#include <network/handler/NetworkEventReceiver.h>
+#include <network/handler/NetworkHandler.h>
 #include "keyboard/KeyboardReader.h"
 
 class DotObject  : public Object, public NetworkEventReceiver, public KeyEventReceiver
@@ -12,7 +12,7 @@ class DotObject  : public Object, public NetworkEventReceiver, public KeyEventRe
 private:
 	int x;
 	int y;
-    NetworkHandler * networkHandler;
+    NetworkHandler * handler;
     KeyboardReader * keyboardReader;
     
 public:
