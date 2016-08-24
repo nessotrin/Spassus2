@@ -21,7 +21,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include <tools/GameInstance.h>
 
-#include "MainMenu.h"
+#include <gui/MainMenuGui.h>
+#include <tools/FramerateLimiter.h>
 
 #include "network/PinSocket.h"
 
@@ -136,17 +137,23 @@ int main()
     }
     NetworkHandler networkHandler(testProtocol);
     
-    MainMenu mainMenu;
-    mainMenu.setupMenu(&calcScreen, &globalKeyboardReader, &networkHandler);
-
-    char choice = (char) mainMenu.loopMenu();
-
-    if(choice == MainMenu::mainMenuAction::START_GAME)
+    
+    FramerateLimiter limiter(30);
+    MainMenuGui mainMenu;
+    mainMenu.setNetHandler(&networkHandler);
+    mainMenu.init(&globalKeyboardReader);
+    while(!mainMenu.isValidated())
     {
-        GameInstance gameInstance(&calcScreen, &globalKeyboardReader);
-        gameInstance.run();
+        Bdisp_AllClr_VRAM();
+        mainMenu.render(&calcScreen);
+        Bdisp_PutDisp_DD();
+        globalKeyboardReader.tick();
+        limiter.wait();
     }
+    mainMenu.deinit(&globalKeyboardReader);
 
 
+    //char choice = (char) mainMenu.getChoice();
+ 
     return 0;
 }

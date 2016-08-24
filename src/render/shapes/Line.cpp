@@ -40,7 +40,7 @@ void Line::draw(Screen * screen)
     
     ScreenLine line;
 
-    if(yEnd > 0 || yStart >= screen->getSize().getY()) // out of screen
+    if(yEnd < 0 || yStart >= screen->getSize().getY()) // out of screen
     {
         return;
     }
@@ -51,7 +51,6 @@ void Line::draw(Screen * screen)
     }
     
 
-    
     for(unsigned int y = (unsigned int)yStart ; y <= (unsigned int)yEnd ; y++)
     {
         if(screen->getScreenLine(&line,y))
