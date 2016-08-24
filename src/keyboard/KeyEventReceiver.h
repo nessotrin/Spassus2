@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 class KeyEventReceiver
 {
 public:
-    virtual void keyHandler(int keyId, int keyStatus) = 0;
+    virtual void keyHandler(unsigned short keyId, bool keyStatus) = 0;
 };
 
 #endif

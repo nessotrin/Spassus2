@@ -17,14 +17,21 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-#include "ChecksumGenerator.h"
+#ifndef _LINE_H_
+#define _LINE_H_
 
-unsigned char ChecksumGenerator::generateChecksum(Buffer * inputBuffer)
+#include "Coord.h"
+#include <render/Screen.h>
+
+class Line
 {
-    unsigned char sum = 0;
-    for(unsigned int i = 0 ; i < inputBuffer->getSize() ; i++)
-    {
-        sum += inputBuffer->getBuffer()[i];
-    }
-    return ~(sum-1);
-}
+private:
+    Coord coordA;
+    Coord coordB;
+public:
+    Line();
+    Line(Coord newCoordA, Coord newCoordB);
+    void draw(Screen * screen);
+};
+
+#endif

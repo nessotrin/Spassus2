@@ -22,15 +22,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #define MAX_OBJECT_COUNT 64
 
-#include "world/object/Object.h"
-#include "render/Renderer.h"
+#include <world/object/Object.h>
+#include <render/Screen.h>
 
 class World
 {
 public:
     World();
     void tick();
-    void render(Renderer*);
+    void render(Screen * screen);
     
 private:
     Object * objectTable[MAX_OBJECT_COUNT];

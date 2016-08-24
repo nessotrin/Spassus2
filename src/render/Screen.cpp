@@ -24,30 +24,25 @@ Screen::Screen(Coord newCoord, Coord newSize, Screen * newParent)
     size = newSize;
     relativeCoord = newCoord;
     parent = newParent;
-    updateAbsoluteCoord();
+    updateInBufferCoord();
 }
-Screen::Screen(Coord newSize, unsigned char * newMemoryAdress)
+Screen::Screen(Coord newSize, unsigned char * newBufferAdress)
 {
     size = newSize;
     relativeCoord = Coord(0,0);
     parent = NULL;
-    updateAbsoluteCoord();
-    memoryAdress = newMemoryAdress;
+    updateInBufferCoord();
+    bufferAdress = newBufferAdress;
 }
 void Screen::changeCoord(Coord newCoord)
 {
     relativeCoord = newCoord;
-    updateAbsoluteCoord();
+    updateInBufferCoord();
 }
 
 void Screen::changeSize(Coord newSize)
 {
     size = newSize;
-}
-
-Screen * Screen::getParent()
-{
-    return parent;
 }
 
 Coord Screen::getSize()
@@ -60,9 +55,9 @@ Coord Screen::getRelativeCoord()
     return relativeCoord;
 }
 
-Coord Screen::getAbsoluteCoord()
+Coord Screen::getInBufferCoord()
 {
-    return absoluteCoord;
+    return inBufferCoord;
 }
 
 void Screen::addChild(Screen * newChild)
@@ -75,23 +70,41 @@ void Screen::removeChild(Screen * oldChild)
     child.searchAndRemove(oldChild);
 }
 
-void Screen::updateAbsoluteCoord()
+void Screen::updateInBufferCoord()
 {
     if(parent == NULL)
     {
-        absoluteCoord = relativeCoord;
+        inBufferCoord = relativeCoord;
     }
     else
     {
-        absoluteCoord = relativeCoord + parent->getAbsoluteCoord();
+        inBufferCoord = relativeCoord + parent->getInBufferCoord();
     }
     for(unsigned int i = 0 ; i < child.getSize() ; i++)
     {
-        child.get(i)->updateAbsoluteCoord();
+        child.get(i)->updateInBufferCoord();
     }
 }
 
-Screen * Screen::getPhysicalScreen()
+unsigned char * Screen::getTopBuffer()
+{
+    return getTopParent()->bufferAdress;
+}
+
+bool Screen::getScreenLine(ScreenLine * lineToFill, unsigned int lineY)
+{
+    unsigned int bufferLineLength = (unsigned int) getTopParent()->getSize().getX();
+    if(lineY >= (unsigned int) (getTopParent()->getSize().getY()-inBufferCoord.getY()))
+    {
+        return true;
+    }
+    lineToFill->setup(getTopBuffer(),
+                      (bufferLineLength*((unsigned int)inBufferCoord.getY()+lineY) + (unsigned int)inBufferCoord.getX()),
+                      (bufferLineLength-(unsigned int)inBufferCoord.getX()));
+    return false;
+}
+
+Screen * Screen::getTopParent()
 {
     if(parent == NULL)
     {
@@ -99,18 +112,6 @@ Screen * Screen::getPhysicalScreen()
     }
     else
     {
-        return parent->getPhysicalScreen();
-    }
-}
-
-unsigned char * Screen::getPhysicalMemoryAdress()
-{
-    if(parent == NULL)
-    {
-        return memoryAdress;
-    }
-    else
-    {
-        return parent->getPhysicalMemoryAdress();
+        return parent->getTopParent();
     }
 }

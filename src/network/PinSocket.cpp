@@ -23,20 +23,20 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 NETWORK_SOCKET_RESULT PinSocket::writeOut(Buffer * toSend)
 {
-    if(Serial_GetTxBufferFreeCapacity() < toSend->getSize())
+    if((unsigned int)Serial_GetTxBufferFreeCapacity() < toSend->getSize())
     {
         return NETWORK_SOCKET_OUT_OF_BUFFER;
     }
     
     unsigned int tryCount = 0;
-    
-    while(tryCount < 10) //TODO: WTF logic is this ?
+    int result;
+    do
     {
-        switch (Serial_WriteBytes(toSend->getBuffer(),toSend->getSize()))
+        result = Serial_WriteBytes(toSend->getBuffer(),(int)toSend->getSize());
+        switch (result)
         {
             case 0:
                 return NETWORK_SOCKET_OK;
-                break;
             case 3:
                 printf("error: serial is disconnected !\n");
                 if(isConnected)
@@ -45,21 +45,17 @@ NETWORK_SOCKET_RESULT PinSocket::writeOut(Buffer * toSend)
                     if(autoReconnect)
                     {
                         reconnect();
-                        if(isConnected == true)//got reconnected
-                        {
-                            tryCount++;
-                        }
                     }
                 }
             case 2:
             default:;
                 printf("Serial ERROR !\n");
-                return NETWORK_SOCKET_ERROR;
+                return NETWORK_SOCKET_ERROR; 
         }
+        tryCount++;
+    } while(result == 3 && tryCount < 10);
     
-    }
-
-
+    return NETWORK_SOCKET_ERROR;
 }
 NETWORK_SOCKET_RESULT PinSocket::readIn(Buffer * inputBuffer)
 {
@@ -72,13 +68,14 @@ NETWORK_SOCKET_RESULT PinSocket::readIn(Buffer * inputBuffer)
     short readSizeShort;
     
     unsigned int tryCount = 0;
-    
-    while(tryCount < 10)
+    int result;
+    do
     {
-        switch (Serial_ReadBytes(inputBuffer->getBuffer(), inputBuffer->getSize(), &readSizeShort))
+        result = Serial_ReadBytes(inputBuffer->getBuffer(), (int)inputBuffer->getSize(), &readSizeShort);
+        switch (result)
         {
             case 0:
-                inputBuffer->setSize(readSizeShort);
+                inputBuffer->setSize((unsigned int)readSizeShort);
                 return NETWORK_SOCKET_OK;
                 break;
             case 3:
@@ -89,24 +86,21 @@ NETWORK_SOCKET_RESULT PinSocket::readIn(Buffer * inputBuffer)
                     if(autoReconnect)
                     {
                         reconnect();
-                        if(isConnected == true)//got reconnected
-                        {
-                            tryCount++;
-                        }
                     }
                 }
                 case 2:
             default:;
                 return NETWORK_SOCKET_ERROR;
         }
-    }
+        tryCount++;
+    } while(result == 3 && tryCount < 10);
     
 
 }
 
 unsigned int PinSocket::getWaitingSize()
 {
-    return Serial_GetRxBufferSize();
+    return (unsigned int)Serial_GetRxBufferSize();
 }
 
 NETWORK_SOCKET_RESULT PinSocket::connect()

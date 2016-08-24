@@ -26,13 +26,13 @@ class FramerateMonitor
 {
 public:
     void tick();
-    int getFramerate();
-    int getAverageFramerate();
-    int * getFramerateHistory();
+    unsigned int getFramerate();
+    unsigned int getAverageFramerate();
+    unsigned int * getFramerateHistory();
 private:
-    int tickCount;
-    int lastSecondTick;
-    int framerateHistory[FRAMERATEMONITOR_HISTORY_SIZE];
+    unsigned int tickCount;
+    unsigned int lastSecondTick;
+    unsigned int framerateHistory[FRAMERATEMONITOR_HISTORY_SIZE];
     void nextSecond();
 };
 

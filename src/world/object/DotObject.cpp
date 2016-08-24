@@ -1,10 +1,11 @@
 #include "DotObject.h"
 
+#include <render/shapes/Point.h>
 
 void DotObject::init()
 {
-    x = 10;
-    y = 10;
+    x = 0;
+    y = 0;
     networkHandler->registerHandler(this,0x1);
     keyboardReader->registerKey(this,KEY_CTRL_UP);
     keyboardReader->registerKey(this,KEY_CTRL_DOWN);
@@ -32,7 +33,7 @@ void DotObject::networkEventHandler(unsigned char type, Buffer * data)
 	y = (int) data->getBuffer()[1];
 }
 
-void DotObject::keyHandler(int keyId, int keyStatus)
+void DotObject::keyHandler(unsigned short keyId, bool keyStatus)
 {
     //printf("Key !\n");
     if(keyStatus == 0)
@@ -62,8 +63,8 @@ void DotObject::keyHandler(int keyId, int keyStatus)
     
     //Sends to the other
     unsigned char data[2];
-    data[0] = x;
-    data[1] = y;
+    data[0] = (unsigned char)x;
+    data[1] = (unsigned char)y;
     Buffer toSend(data,2);
     networkHandler->sendMessage(0x1,&toSend);
     printf("Sending ...\n");
@@ -73,15 +74,44 @@ void DotObject::tick()
 {
 }
 
-void DotObject::render()
+#include <memory/Bitmap.h>
+#include <render/shapes/Sprite.h>
+#include <render/shapes/Line.h>
+
+void DotObject::render(Screen * screen)
 {
-    //printf("Render %d %d\n",x,y);
-	renderer->drawPoint(Coord(x,y),true);
+    printf("Render %d %d\n",x,y);
+    Point point(Coord(7,1));    
+    point.draw(screen);
+    Point point2(Coord(8,1));    
+    point2.draw(screen);
+    Point point3(Coord(15,1));    
+    point3.draw(screen);
+    Point point4(Coord(16,1));    
+    point4.draw(screen);
+    Bitmap bitmap;
+    bitmap.alloc(Coord(34,43));
+
+
+    unsigned char val = 0;
+    for(int iy = 0 ; iy < 43 ; iy++)
+    {
+        for(int ix = 0 ; ix < 34 ; ix++)
+        {
+            bitmap.set(Coord(ix,iy),val);
+            val = !val;
+        }
+        val = !val;
+    }
+
+//    Sprite sprite;
+//    sprite.drawBitmap(Coord(x,y), bitmap, screen);
+    Line line(Coord(x,y),Coord(80,30));
+    line.draw(screen);
 }
 
-void DotObject::setup(Renderer * newRenderer, NetworkHandler * newNetworkHandler, KeyboardReader * newKeyboardReader)
+void DotObject::setup(NetworkHandler * newNetworkHandler, KeyboardReader * newKeyboardReader)
 {
-    renderer = newRenderer;
     networkHandler = newNetworkHandler;
     keyboardReader = newKeyboardReader;
 }

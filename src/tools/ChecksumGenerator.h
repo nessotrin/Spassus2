@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 class ChecksumGenerator
 {
 public:
-    static unsigned int generateChecksum(Buffer * inputBuffer);
+    static unsigned char generateChecksum(Buffer * inputBuffer);
 
 };
 

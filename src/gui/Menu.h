@@ -22,27 +22,27 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "KeyboardReader.h"
 #include "KeyEventReceiver.h"
-#include "Renderer.h"
+#include "Screen.h"
 #include "List.h"
 #include "FramerateLimiter.h"
 
-class Menu : public KeyEventReceiver
+class Menu : public KeyEventReceiver // TODO: weird heritage logic, rewrite from scratch
 {
 public:
-    char loopMenu();
-    void setupMenu(Renderer * newRenderer, KeyboardReader * newKeyboardReader);
+    int loopMenu();
+    void setupMenu(Screen * newScreen, KeyboardReader * newKeyboardReader);
 
-    virtual void keyHandler(int keyId, int keyStatus) = 0;
+    virtual void keyHandler(unsigned short keyId, bool keyStatus) = 0;
     virtual void resetMenu() = 0;
 
 
 protected:
     KeyboardReader * keyboardReader = NULL;
-    Renderer * renderer = NULL;
+    Screen * screen = NULL;
     FramerateLimiter framerateLimiter; 
     List<char> registeredKeys;
     bool stop;
-    char result;
+    int result;
     
     virtual void initMenu() = 0;
     virtual void deinitMenu() = 0;

@@ -112,7 +112,7 @@ NETWORK_PROTOCOL_RESULT QuickProtocol::updateProtocol()
     {
         return NETWORK_PROTOCOL_OK;
     }
-    else if(result != NETWORK_PROTOCOL_OK) //ERROR
+    else if(result != NETWORK_SOCKET_OK) //ERROR
     {
         return NETWORK_PROTOCOL_ERROR;
     }
@@ -129,7 +129,7 @@ NETWORK_PROTOCOL_RESULT QuickProtocol::updateProtocol()
     return NETWORK_PROTOCOL_OK;
 }
 
-void QuickProtocol::removeFromQueue(int size)
+void QuickProtocol::removeFromQueue(unsigned int size)
 {
     memmove(receiveQueueBuffer.getBuffer(),receiveQueueBuffer.getBuffer()+size,receiveQueueBuffer.getSize()-size);
     receiveQueueBuffer.setSize(receiveQueueBuffer.getSize()-size);

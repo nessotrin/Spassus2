@@ -28,12 +28,12 @@ class MainMenu : public Menu
 {
 public:
 
-    void keyHandler(int keyId, int keyStatus);
+    void keyHandler(unsigned short keyId, bool keyStatus);
     void resetMenu();
     
     //overwrites
-    void setupMenu(Renderer * newRenderer, KeyboardReader * newKeyboardReader, NetworkHandler * networkHandler);
-    char loopMenu();
+    void setupMenu(Screen * newScreen, KeyboardReader * newKeyboardReader, NetworkHandler * networkHandler);
+    int loopMenu();
     
     enum mainMenuAction 
     {START_GAME = 0,

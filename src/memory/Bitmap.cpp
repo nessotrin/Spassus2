@@ -23,36 +23,80 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include <Calculib.h>
 
-void Bitmap::alloc(int newSize)
+Bitmap::Bitmap()
 {
-    memory = (char *) malloc(newSize>>3);
+    size.setX(0);
+    size.setY(0);
+}
+
+void Bitmap::alloc(Coord newSize)
+{
+    memory = (unsigned char *) malloc((size_t)(newSize.getX()*newSize.getY())>>3);
     if(memory == NULL)
     {
         Error::crash((char*)"Bitmap alloc  out of memory");
     }
 
-    newSize = size;
+    size = newSize;
 }
-char Bitmap::get(int id)
+
+void Bitmap::checkInit()
 {
-    if(id < 0 || id >= size)
+    if(size.getX() == 0 || size.getY() == 0)
     {
-        Error::crash((char*)"Bitmap get  out of range id");
-    }
-    return (memory[id>>3]>>(id&7) != 0);
+        Error::crash((char *)"Bitmap is not initialized !");
+    }    
 }
-void Bitmap::set(int id, char value)
+void Bitmap::checkInBound(Coord coord)
 {
-    if(id < 0 || id >= size)
+    if(coord.getX() >= size.getX() || 
+       coord.getY() >= size.getY() || 
+       coord.getX() < 0 || 
+       coord.getX() < 0)
+   {
+       Error::crash((char *)"Bitmap getBitId  Out of range !");
+   }    
+}
+unsigned char Bitmap::getBit(Coord coord)
+{
+    checkInit();
+    checkInBound(coord);
+    
+    unsigned int id = getBitId(coord);
+    return (memory[id>>3]>>(7-(id&7)) != 0);
+}
+unsigned char * Bitmap::getBuffer()
+{
+    return memory;
+}
+void Bitmap::set(Coord coord, unsigned char value)
+{
+    checkInit(); 
+    checkInBound(coord);  
+    
+    if(coord.getX() >= size.getX() || coord.getY() >= size.getY())
     {
         Error::crash((char*)"Bitmap set  out of range id");
     }
+    unsigned int id = getBitId(coord);
     if(value == 0)
     {
-        memory[id>>3]&= ~(1<<(id&7));
+        memory[id>>3]&= ~(1<<(7-(id&7)));
     }
     else
     {
-        memory[id>>3]|= (1<<(id&7));
+        memory[id>>3]|= (1<<(7-(id&7)));
     }
+}
+unsigned int Bitmap::getBitId(Coord coord)
+{
+    checkInit();
+    checkInBound(coord);
+    
+    return (unsigned int)( coord.getY()*size.getX() + coord.getX());
+}
+
+Coord Bitmap::getSize()
+{
+    return size;
 }

@@ -18,8 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 #include "Menu.h"
-
-char Menu::loopMenu()
+int Menu::loopMenu()
 {
     initMenu();
     stop = 0;
@@ -33,9 +32,9 @@ char Menu::loopMenu()
     deinitMenu();
     return result;
 }
-void Menu::setupMenu(Renderer * newRenderer, KeyboardReader * newKeyboardReader)
+void Menu::setupMenu(Screen * newScreen, KeyboardReader * newKeyboardReader)
 {
     keyboardReader = newKeyboardReader;
-    renderer = newRenderer;
+    screen = newScreen;
     framerateLimiter.changeFramerate(10);
 }

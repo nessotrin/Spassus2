@@ -19,10 +19,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #ifndef _OBJECT_H_
 #define _OBJECT_H_
+
+#include <render/Screen.h>
+
 class Object
 {
 public:
     virtual void tick() = 0;
-    virtual void render() = 0;
+    virtual void render(Screen * screen) = 0;
 };
 #endif

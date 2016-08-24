@@ -23,16 +23,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 class FramerateLimiter
 {
 public:
-    FramerateLimiter(int newFramerate);
+    FramerateLimiter(unsigned int newFramerate);
     FramerateLimiter();
     void wait();
-    int getFramerate();
-    void changeFramerate(int newFramerate);
+    unsigned int getFramerate();
+    void changeFramerate(unsigned int newFramerate);
 
 private:
-    int framerate = 0;
-    int lastTick = 0;
-    int tickPerCycle = 0;
+    unsigned int framerate = 0;
+    unsigned int lastTick = 0;
+    unsigned int tickPerCycle = 0;
 
 };
 

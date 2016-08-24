@@ -55,7 +55,7 @@ bool BufferOrganizer::allocOrganizer()
         return true;
     }
     
-    for(int i = 0 ; i < bufferCount ; i++)
+    for(unsigned int i = 0 ; i < bufferCount ; i++)
     {
         bufferPresence[i] = 0;
     }
@@ -100,7 +100,7 @@ BUFFER_ORGANIZER_RESULT BufferOrganizer::addBuffer(Buffer * toAdd, unsigned int 
         return BUFFER_ORGANIZER_BIGGERTHANMAX;
     }
     
-    memcpy(bufferHolder+(pos*bufferMaxSize),toAdd->getBuffer(),toAdd->getSize());
+    memcpy(bufferHolder+(((unsigned int)pos)*bufferMaxSize),toAdd->getBuffer(),toAdd->getSize());
     bufferId[pos] = id;
     bufferPresence[pos] = 1;
     bufferSize[pos] = toAdd->getSize();
@@ -121,7 +121,7 @@ BUFFER_ORGANIZER_RESULT BufferOrganizer::getBuffer(Buffer * outputBuffer, unsign
         return BUFFER_ORGANIZER_OUTOFSPACE;
     }
     
-    memcpy(outputBuffer->getBuffer(),bufferHolder+pos*bufferMaxSize,bufferSize[pos]);
+    memcpy(outputBuffer->getBuffer(),bufferHolder+((unsigned int)pos)*bufferMaxSize,bufferSize[pos]);
     outputBuffer->setSize(bufferSize[pos]);
     
     return BUFFER_ORGANIZER_OK;
@@ -129,11 +129,11 @@ BUFFER_ORGANIZER_RESULT BufferOrganizer::getBuffer(Buffer * outputBuffer, unsign
 
 int BufferOrganizer::searchForId(unsigned int id)
 {
-    for(int i = 0 ; i < bufferCount ; i++)
+    for(unsigned int i = 0 ; i < bufferCount ; i++)
     {
         if(bufferPresence[i] == 1 && bufferId[i] == id)
         {
-            return i;
+            return (int)i;
         }
     }
     
@@ -142,11 +142,11 @@ int BufferOrganizer::searchForId(unsigned int id)
 
 int BufferOrganizer::searchForSpace()
 {
-    for(int i = 0 ; i < bufferCount ; i++)
+    for(unsigned int i = 0 ; i < bufferCount ; i++)
     {
         if(bufferPresence[i] == 0)
         {
-            return i;
+            return (int)i;
         }
     }
     

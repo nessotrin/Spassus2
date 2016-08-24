@@ -20,34 +20,36 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #ifndef _SCREEN_H_
 #define _SCREEN_H_
 
-#include "Coord.h"
+#include <tools/Coord.h>
+#include <memory/List.h>
 
-#include "List.h"
-
-
+#include "ScreenLine.h"
 
 class Screen
 {
 private:
-    unsigned char * memoryAdress = NULL;
-    Coord absoluteCoord;
+    unsigned char * bufferAdress = NULL;
+    Coord inBufferCoord;
     Coord relativeCoord;
     Coord size;
     Screen * parent = NULL;
     List<Screen*> child;
+
+    Screen * getTopParent();
+    List<Screen*> * getChild();
+    void updateInBufferCoord();
+    unsigned char * getTopBuffer();
+    Coord getInBufferCoord();
+
     
 public:
     Screen(Coord newCoord, Coord newSize, Screen * newParent);
-    Screen(Coord newSize, unsigned char * newMemoryAdress);
+    Screen(Coord newSize, unsigned char * newBufferAdress);
     
     Coord getRelativeCoord();
-    Coord getAbsoluteCoord();
     Coord getSize();
-    Screen * getParent();
-    Screen * getPhysicalScreen();
-    List<Screen*> * getChild();
 
-    unsigned char * getPhysicalMemoryAdress();
+    bool getScreenLine(ScreenLine * line, unsigned int y);
 
     void addChild(Screen * newChild);
     void removeChild(Screen * oldChild);
@@ -55,7 +57,6 @@ public:
     void changeSize(Coord newSize);
     void changeCoord(Coord newCoord);
 
-    void updateAbsoluteCoord();
 };
 
 #endif

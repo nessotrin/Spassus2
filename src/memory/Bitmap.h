@@ -19,15 +19,26 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #ifndef _BITMAP_H_
 #define _BITMAP_H_
+
+#include <tools/Coord.h>
+
 class Bitmap
 {
 private:
-    char * memory;
-    int size = -1;
-    
+    unsigned char * memory;
+    Coord size;
+
+    unsigned int getBitId(Coord coord);
+
+    void checkInit();
+    void checkInBound(Coord coord);
+
 public:
-    void alloc(int newSize);
-    char get(int id);
-    void set(int id, char value);
+    Bitmap();
+    void alloc(Coord newSize);
+    unsigned char getBit(Coord coord);
+    unsigned char * getBuffer();
+    Coord getSize();
+    void set(Coord coord, unsigned char value);
 };
 #endif

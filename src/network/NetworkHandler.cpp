@@ -42,7 +42,7 @@ void NetworkHandler::tickHandler()
 
 void NetworkHandler::handleEvent(unsigned char type, Buffer * buffer)
 {
-	for(int i = 0 ; i < subscriptionList.getSize() ; i++)
+	for(unsigned int i = 0 ; i < subscriptionList.getSize() ; i++)
 	{
 		if(subscriptionList.get(i).type == type)
 		{
@@ -54,7 +54,7 @@ void NetworkHandler::handleEvent(unsigned char type, Buffer * buffer)
 void NetworkHandler::registerHandler(NetworkEventReceiver * receiver, unsigned char type)
 {
     NetworkEventSubscription newSubscription(receiver,type);
-	for(int i = 0 ; i < subscriptionList.getSize() ; i++)
+	for(unsigned int i = 0 ; i < subscriptionList.getSize() ; i++)
 	{
 		if(subscriptionList.get(i) == newSubscription)
 		{

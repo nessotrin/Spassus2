@@ -28,7 +28,7 @@ void testBufferOrganizer()
     
     if(organizer.allocOrganizer())
     {
-        Error::crash("ALLOC");
+        Error::crash((char *)"ALLOC");
     }
     
     unsigned char bufferAData[] = {0,1,2,3,4};
@@ -43,81 +43,81 @@ void testBufferOrganizer()
 
     if(organizer.addBuffer(&bufferA,1) != BUFFER_ORGANIZER_OK)
     {
-        Error::crash("ADD A");
+        Error::crash((char *)"ADD A");
     }
     if(organizer.getBuffer(&bufferOutput,1) != BUFFER_ORGANIZER_OK)
     {
-        Error::crash("GET A");
+        Error::crash((char *)"GET A");
     }
     if(memcmp(bufferOutput.getBuffer(),bufferA.getBuffer(),5) || bufferOutput.getSize() != 5)
     {
         printf("%d ->",bufferOutput.getSize());
-        for(int i = 0 ; i < bufferOutput.getSize() ; i++)
+        for(unsigned int i = 0 ; i < bufferOutput.getSize() ; i++)
         {
             printf("%d-%d |",bufferOutput.getBuffer()[i],bufferA.getBuffer()[i]);
         }
-        Error::crash("CORRUPTED A");
+        Error::crash((char *)"CORRUPTED A");
         printf("\n");
     }
     bufferOutput.setSize(50);
     
     if(organizer.addBuffer(&bufferB,981724) != BUFFER_ORGANIZER_OK)
     {
-        Error::crash("ADD B");
+        Error::crash((char *)"ADD B");
     }
     if(organizer.addBuffer(&bufferA,2) != BUFFER_ORGANIZER_OK)
     {
-        Error::crash("ADD C");
+        Error::crash((char *)"ADD C");
     }
     if(organizer.addBuffer(&bufferA,3) != BUFFER_ORGANIZER_OUTOFSPACE)
     {
-        Error::crash("OVERLOAD ERROR");
+        Error::crash((char *)"OVERLOAD ERROR");
     }
 
     if(organizer.removeBuffer(2))
     {
-       Error::crash("REMOVE C ERROR"); 
+       Error::crash((char *)"REMOVE C ERROR"); 
     }
 
     if(organizer.addBuffer(&bufferB,1) != BUFFER_ORGANIZER_DUPLICATE)
     {
-        Error::crash("TRUE DUPLICATE ERROR");
+        Error::crash((char *)"TRUE DUPLICATE ERROR");
     }
 
     if(organizer.addBuffer(&bufferB,2) != BUFFER_ORGANIZER_OK)
     {
-        Error::crash("ADD E ERROR");
+        Error::crash((char *)"ADD E ERROR");
     }
     
     if(organizer.removeBuffer(2))
     {
-       Error::crash("REMOVE E ERROR"); 
+       Error::crash((char *)"REMOVE E ERROR"); 
     }
 
     if(organizer.removeBuffer(1))
     {
-       Error::crash("REMOVE A ERROR"); 
+       Error::crash((char *)"REMOVE A ERROR"); 
     }
 
 
     if(organizer.addBuffer(&bufferC,44) != BUFFER_ORGANIZER_BIGGERTHANMAX)
     {
-        Error::crash("ADD F ERROR");
+        Error::crash((char *)"ADD F ERROR");
     }
 
     if(organizer.getBuffer(&bufferOutput,981724) != BUFFER_ORGANIZER_OK)
     {
-        Error::crash("GET B");
+        Error::crash((char *)"GET B");
     }
     if(memcmp(bufferOutput.getBuffer(),bufferB.getBuffer(),3) || bufferOutput.getSize() != 3)
     {
-        Error::crash("CORRUPTED B");
+        Error::crash((char *)"CORRUPTED B");
     }
     bufferOutput.setSize(50);
 
     if(organizer.removeBuffer(981724))
     {
-       Error::crash("REMOVE B ERROR"); 
+       Error::crash((char *)"REMOVE B ERROR"); 
     }
 
     organizer.freeOrganizer();

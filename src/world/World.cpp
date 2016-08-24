@@ -40,7 +40,8 @@ void World::tick()
     }
 }
 
-void World::render(Renderer * renderer)
+void World::render(Screen * screen)
 {
-    
+//    render->
+    printf("Screen %lu\n",(unsigned long)screen);
 }

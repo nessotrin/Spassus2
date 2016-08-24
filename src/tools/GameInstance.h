@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #ifndef _GAMEINSTANCE_H_
 #define _GAMEINSTANCE_H_
 
-#include "render/Renderer.h"
+#include "render/Screen.h"
 #include "world/World.h"
 
 #include "keyboard/KeyboardReader.h"
@@ -29,12 +29,12 @@ class GameInstance
 {
 public:
     void run();
-    GameInstance(Renderer * newRenderer, KeyboardReader * newKeyboardReader);
+    GameInstance(Screen * newScreen, KeyboardReader * newKeyboardReader);
     
     
 private:
-    bool continueGame = 1;
-    Renderer * renderer;
+    bool continueGame = true;
+    Screen * screen;
     World world;
     KeyboardReader * keyboardReader;
     

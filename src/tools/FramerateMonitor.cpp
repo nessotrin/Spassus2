@@ -25,27 +25,27 @@ void FramerateMonitor::tick()
 {
     tickCount++;
  
-    if(RTC_GetTicks() >= lastSecondTick+128) // 128= 1s constant
+    if((unsigned int)RTC_GetTicks() >= lastSecondTick+128) // 128= 1s constant
     {
         nextSecond();
     }
 }
 void FramerateMonitor::nextSecond()
 {
-    lastSecondTick = RTC_GetTicks();
+    lastSecondTick = (unsigned int)RTC_GetTicks();
     memmove(framerateHistory+1,framerateHistory,FRAMERATEMONITOR_HISTORY_SIZE-1);
     framerateHistory[0] = tickCount;
     tickCount = 0;
 }
 
-int FramerateMonitor::getFramerate()
+unsigned int FramerateMonitor::getFramerate()
 {
     return framerateHistory[0];
 }
 
-int FramerateMonitor::getAverageFramerate()
+unsigned int FramerateMonitor::getAverageFramerate()
 {
-    int value = 0;
+    unsigned int value = 0;
     for(int i = 0 ; i < FRAMERATEMONITOR_HISTORY_SIZE ; i++)
     {
         value += framerateHistory[i];
@@ -54,7 +54,7 @@ int FramerateMonitor::getAverageFramerate()
     return value/FRAMERATEMONITOR_HISTORY_SIZE;
 }
 
-int * FramerateMonitor::getFramerateHistory()
+unsigned int * FramerateMonitor::getFramerateHistory()
 {
     return framerateHistory;
 }

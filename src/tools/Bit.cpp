@@ -19,48 +19,48 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "Bit.h"
 
-void Bit::setBit(int id, unsigned char * buffer, bool value)
+void Bit::setBit(unsigned int id, unsigned char * buffer, bool value)
 {
-    int idByte = id/8;
-    int idBit = id & 7;
+    unsigned int idByte = id/8;
+    unsigned int idBit = id & 7;
     
     buffer[idByte] &= ~(1<<idBit);
     buffer[idByte] |= (((char)value)<<idBit);
 }
-bool Bit::getBit(int id, unsigned char * buffer)
+bool Bit::getBit(unsigned int id, unsigned char * buffer)
 {
-    int idByte = id>>3;
-    int idBit = id & 7;
+    unsigned int idByte = id>>3;
+    unsigned int idBit = id & 7;
     
     
     return buffer[idByte] & (1 << idBit);
 }
-void Bit::setBitInvertedOrder(int id, unsigned char * buffer, bool value)
+void Bit::setBitInvertedOrder(unsigned int id, unsigned char * buffer, bool value)
 {
-    int idByte = id/8;
-    int idBit = 7-(id & 7);
+    unsigned int idByte = id/8;
+    unsigned int idBit = 7-(id & 7);
     
     buffer[idByte] &= ~(1<<idBit);
     buffer[idByte] |= (((char)value)<<idBit);
 }
-void Bit::orBitInvertedOrder(int id, unsigned char * buffer, bool value)
+void Bit::orBitInvertedOrder(unsigned int id, unsigned char * buffer, bool value)
 {
-    int idByte = id/8;
-    int idBit = 7-(id & 7);
+    unsigned int idByte = id/8;
+    unsigned int idBit = 7-(id & 7);
     
     buffer[idByte] |= (((char)value)<<idBit);
 }
-void Bit::andBitInvertedOrder(int id, unsigned char * buffer, bool value)
+void Bit::andBitInvertedOrder(unsigned int id, unsigned char * buffer, bool value)
 {
-    int idByte = id/8;
-    int idBit = 7-(id & 7);
+    unsigned int idByte = id/8;
+    unsigned int idBit = 7-(id & 7);
     
     buffer[idByte] &= (((char)value)<<idBit);
 }
-void Bit::keepBitInvertedOrder(int id, unsigned char * buffer, bool value, bool keep)
+void Bit::keepBitInvertedOrder(unsigned int id, unsigned char * buffer, bool value, bool keep)
 {
-    int idByte = id/8;
-    int idBit = 7-(id & 7);
+    unsigned int idByte = id/8;
+    unsigned int idBit = 7-(id & 7);
     
     bool finalValue = (value&&!keep) || ((buffer[idByte] & (1 << idBit))&& keep);
     
@@ -68,39 +68,37 @@ void Bit::keepBitInvertedOrder(int id, unsigned char * buffer, bool value, bool 
     buffer[idByte] |= ((char)(finalValue)<<idBit);
     
 }
-bool Bit::getBitInvertedOrder(int id, unsigned char * buffer)
+bool Bit::getBitInvertedOrder(unsigned int id, unsigned char * buffer)
 {
-    int idByte = id>>3;
-    int idBit = 7-(id & 7);
+    unsigned int idByte = id>>3;
+    unsigned int idBit = 7-(id & 7);
     
     
     return buffer[idByte] & (1 << idBit);
 }
 
-unsigned char Bit::readBitsInBufferAt(int bitStart, int length, int bufferLength, unsigned char * buffer)
+unsigned char Bit::readByteCutInBufferAtBit(unsigned int bitStart, unsigned int length, unsigned int bufferLength, unsigned char * buffer)
 {
     unsigned char byte = 0x0;
     unsigned char bitOffset = bitStart&7;
-    int bitAlignedByte = (bitStart)>>3;
-    byte = buffer[bitAlignedByte] << bitOffset;
+    unsigned int bitAlignedByte = (bitStart)>>3;
+    byte = (unsigned char) (buffer[bitAlignedByte] << bitOffset);
     if(bitAlignedByte+1 < bufferLength)
     {
         byte |= buffer[bitAlignedByte+1] >> (8-bitOffset);
     }
 
-
-    //printf("%d %d %d\n",byte&0b10000000>=1,byte&0b01000000>=1,byte&0b00100000>=1);
     return byte & ~((1<<(8-length))-1);
 }
 
 
-void Bit::writeByteWithRightOffsetCut(unsigned char * receiver, int offset, int length, unsigned char byte, unsigned char alpha, unsigned char invertMask, unsigned char ignoreMask) // byte is moved to the right
+void Bit::writeByteWithRightOffsetCut(unsigned char * receiver, unsigned int offset, unsigned int length, unsigned char byte, unsigned char alpha, unsigned char invertMask, unsigned char ignoreMask) // byte is moved to the right
 {
     unsigned char mask = ((alpha^invertMask) | ignoreMask)&(~((1<<(8-length))-1));
     receiver[0] &= ~mask >> offset; // blanks the byte
     receiver[0] |= ((byte&(mask)) >> offset);
 }
-void Bit::writeByteCut(unsigned char * receiver, int length, unsigned char byte, unsigned char alpha, unsigned char invertMask, unsigned char ignoreMask)
+void Bit::writeByteCut(unsigned char * receiver, unsigned int length, unsigned char byte, unsigned char alpha, unsigned char invertMask, unsigned char ignoreMask)
 {
     unsigned char mask = ((alpha^invertMask) | ignoreMask)&(~((1<<(8-length))-1));
     receiver[0] &= ~mask; // blanks the byte

@@ -23,16 +23,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 //#include <MonochromeLib.h>
 
-void MainMenu::setupMenu(Renderer * newRenderer, KeyboardReader * newKeyboardReader, NetworkHandler * newNetworkHandler)
+void MainMenu::setupMenu(Screen * newScreen, KeyboardReader * newKeyboardReader, NetworkHandler * newNetworkHandler)
 {
-    renderer = newRenderer;
+    screen = newScreen;
     keyboardReader = newKeyboardReader;
     networkHandler = newNetworkHandler;
-    dot.setup(renderer,networkHandler,keyboardReader);
+    dot.setup(networkHandler,keyboardReader);
     framerateLimiter.changeFramerate(20);
 }
 
-char MainMenu::loopMenu()
+int MainMenu::loopMenu()
 {
     initMenu();
     stop = 0;
@@ -87,13 +87,13 @@ void MainMenu::renderMenu()
     
     //renderer->drawLine(Coord(9,9),Coord(coordX,coordY),true);
     
-    dot.render();
+    dot.render(screen);
     
     //ML_horizontal_line(5,0,10,ML_BLACK);
     Bdisp_PutDisp_DD();
 }
 
-void MainMenu::keyHandler(int keyId, int keyStatus)
+void MainMenu::keyHandler(unsigned short keyId, bool keyStatus)
 {
     if(keyStatus == 0)
     {

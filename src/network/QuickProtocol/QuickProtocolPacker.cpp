@@ -33,7 +33,7 @@ bool QuickProtocolPacker::packBuffer(Buffer * outputBuffer, unsigned char type, 
     
     outputBuffer->getBuffer()[0] = type;
     
-    ToCharNoEndian::ushortToChar(outputBuffer->getBuffer()+1,dataBuffer->getSize());
+    ToCharNoEndian::ushortToChar(outputBuffer->getBuffer()+1,(unsigned short) dataBuffer->getSize());
     
     
     memcpy(1+2+outputBuffer->getBuffer(),dataBuffer->getBuffer(),dataBuffer->getSize());
@@ -60,12 +60,7 @@ QUICKPROTOCOL_UNPACK_RESULT QuickProtocolPacker::unpackBuffer(Buffer * inputBuff
     unsigned short dataSize;
     ToCharNoEndian::charToUshort(&dataSize,inputBuffer->getBuffer()+1);
     
-    int packetSize = 1+2+dataSize+1;
-
-    #define min(a,b) (((a)<(b)?(a):(b)))
-
-    int dumpSize = min(64,inputBuffer->getSize());
-
+    unsigned int packetSize = 1+2+dataSize+1;
 
     if(inputBuffer->getSize() < packetSize)
     {

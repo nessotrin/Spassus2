@@ -21,43 +21,43 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 void ToCharNoEndian::intToChar(unsigned char * toWrite, int value)
 {
-    toWrite[0] = (value>>0);
-    toWrite[1] = (value>>8);
-    toWrite[2] = (value>>16);
-    toWrite[3] = (value>>24);
+    toWrite[0] = (unsigned char)(value>>0);
+    toWrite[1] = (unsigned char)(value>>8);
+    toWrite[2] = (unsigned char)(value>>16);
+    toWrite[3] = (unsigned char)(value>>24);
 }
 void ToCharNoEndian::uintToChar(unsigned char * toWrite, unsigned int value)
 {
-    toWrite[0] = (value>>0);
-    toWrite[1] = (value>>8);
-    toWrite[2] = (value>>16);
-    toWrite[3] = (value>>24);
+    toWrite[0] = (unsigned char)(value>>0);
+    toWrite[1] = (unsigned char)(value>>8);
+    toWrite[2] = (unsigned char)(value>>16);
+    toWrite[3] = (unsigned char)(value>>24);
 }
 void ToCharNoEndian::charToInt(int * value, unsigned char * toRead)
 {
-    *value = (toRead[0]<<0) + (toRead[1]<<8) + (toRead[2]<<16) + (toRead[3]<<24);
+    *value = ((int)(toRead[0]<<0)) + ((int)(toRead[1]<<8)) + ((int)(toRead[2]<<16)) + ((int)(toRead[3]<<24));
 }
 void ToCharNoEndian::charToUint(unsigned int * value, unsigned char * toRead)
 {
-    *value = (toRead[0]<<0) + (toRead[1]<<8) + (toRead[2]<<16) + (toRead[3]<<24);
+    *value = ((unsigned int)(toRead[0]<<0)) + ((unsigned int)(toRead[1]<<8)) + ((unsigned int)(toRead[2]<<16)) + ((unsigned int)(toRead[3]<<24));
 }
 
 
 void ToCharNoEndian::shortToChar(unsigned char * toWrite, short value)
 {
-    toWrite[0] = (value>>0);
-    toWrite[1] = (value>>8);
+    toWrite[0] = (unsigned char)(value>>0);
+    toWrite[1] = (unsigned char)(value>>8);
 }
 void ToCharNoEndian::ushortToChar(unsigned char * toWrite, unsigned short value)
 {
-    toWrite[0] = (value>>0);
-    toWrite[1] = (value>>8);
+    toWrite[0] = (unsigned char)(value>>0);
+    toWrite[1] = (unsigned char)(value>>8);
 }
 void ToCharNoEndian::charToShort(short * value, unsigned char * toRead)
 {
-    *value = (toRead[0]<<0) + (toRead[1]<<8);
+    *value = ((short)(toRead[0]<<0)) + ((short)(toRead[1]<<8));
 }
 void ToCharNoEndian::charToUshort(unsigned short * value, unsigned char * toRead)
 {
-    *value = (toRead[0]<<0) + (toRead[1]<<8);
+    *value = ((unsigned short)(toRead[0]<<0)) + ((unsigned short)(toRead[1]<<8));
 }

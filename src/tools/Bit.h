@@ -23,16 +23,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 class Bit
 {
 public:
-    static void setBit(int id, unsigned char * buffer, bool value);
-    static void setBitInvertedOrder(int id, unsigned char * buffer, bool value);
-    static void orBitInvertedOrder(int id, unsigned char * buffer, bool value);
-    static void andBitInvertedOrder(int id, unsigned char * buffer, bool value);
-    static void keepBitInvertedOrder(int id, unsigned char * buffer, bool value, bool keep);
-    static bool getBit(int id, unsigned char * buffer);
-    static bool getBitInvertedOrder(int id, unsigned char * buffer);
-    static unsigned char readBitsInBufferAt(int bitStart, int lengh, int bufferLength, unsigned char * buffer);
-    static void writeByteWithRightOffsetCut(unsigned char * receiver, int offset, int length, unsigned char byte, unsigned char alpha, unsigned char invertMask, unsigned char ignoreMask); // byte must be moved left
-    static void writeByteCut(unsigned char * receiver, int length, unsigned char byte, unsigned char alpha, unsigned char invertMask, unsigned char ignoreMask);
+    static void setBit(unsigned int id, unsigned char * buffer, bool value);
+    static void setBitInvertedOrder(unsigned int id, unsigned char * buffer, bool value);
+    static void orBitInvertedOrder(unsigned int id, unsigned char * buffer, bool value);
+    static void andBitInvertedOrder(unsigned int id, unsigned char * buffer, bool value);
+    static void keepBitInvertedOrder(unsigned int id, unsigned char * buffer, bool value, bool keep);
+    static bool getBit(unsigned int id, unsigned char * buffer);
+    static bool getBitInvertedOrder(unsigned int id, unsigned char * buffer);
+    static unsigned char readByteCutInBufferAtBit(unsigned int bitStart, unsigned int lengh, unsigned int bufferLength, unsigned char * buffer);
+    static void writeByteWithRightOffsetCut(unsigned char * receiver, unsigned int offset, unsigned int length, unsigned char byte, unsigned char alpha, unsigned char invertMask, unsigned char ignoreMask); // byte must be moved left
+    static void writeByteCut(unsigned char * receiver, unsigned int length, unsigned char byte, unsigned char alpha, unsigned char invertMask, unsigned char ignoreMask);
     static void writeByte(unsigned char * receiver, unsigned char byte, unsigned char alpha, unsigned char invertMask, unsigned char ignoreMask);
 };
 

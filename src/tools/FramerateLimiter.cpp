@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "Calculib.h"
 
-FramerateLimiter::FramerateLimiter(int newFramerate)
+FramerateLimiter::FramerateLimiter(unsigned int newFramerate)
 {
     changeFramerate(newFramerate);
 }
@@ -30,22 +30,22 @@ FramerateLimiter::FramerateLimiter()
     
 }
 
-void FramerateLimiter::changeFramerate(int newFramerate)
+void FramerateLimiter::changeFramerate(unsigned int newFramerate)
 {
     framerate = newFramerate;
     tickPerCycle = 128/framerate; //128 = System tick per second
 }
 
-int FramerateLimiter::getFramerate()
+unsigned int FramerateLimiter::getFramerate()
 {
     return framerate;
 }
 
 void FramerateLimiter::wait()
 {
-    while(RTC_GetTicks()-lastTick < tickPerCycle && RTC_GetTicks() >= lastTick) //si RTC < last alors RTCa bouclé donc on libère
+    while(((unsigned int)RTC_GetTicks())-lastTick < tickPerCycle && ((unsigned int)RTC_GetTicks()) >= lastTick) //si RTC < last alors RTCa bouclé donc on libère
     {
         Sleep(5);
     }
-    lastTick = RTC_GetTicks();
+    lastTick = (unsigned int)RTC_GetTicks();
 }

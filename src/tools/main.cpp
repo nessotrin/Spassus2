@@ -45,7 +45,7 @@ int main()
     //registerKeys(calcKey,sfmlKey,5);
     //#endif
     calculibInit();
-/*
+
     
     CalculibKeyboard::calculibMapKey(KEY_CTRL_UP,sf::Keyboard::Up);
     CalculibKeyboard::calculibMapKey(KEY_CTRL_DOWN,sf::Keyboard::Down);
@@ -57,37 +57,35 @@ int main()
     Print((const unsigned char *)"Spassus2");
     locate(1,2);
     
-    Renderer globalRenderer;
     Screen calcScreen(Coord(128,64),(unsigned char *)ML_vram_adress());
     KeyboardReader globalKeyboardReader;
     
-    globalRenderer.setScreen(&calcScreen);
     testList();
     testBufferOrganizer();
-*/
-    //QuickProtocol testProtocol;
+
+    QuickProtocol testProtocol;
     
     PinSocket socket;
     
     int i = 5;
-    while(printf("socket.connect()") != 0x3333 && socket.connect() && i) //May I burn in hell for this condition
+    //while(printf("socket.connect()") != 0x3333 && socket.connect() && i) //May I burn in hell for this condition
     {
         Sleep(1000);
         i--;
     }
     
-    //testProtocol.setSocket(&socket);
+    testProtocol.setSocket(&socket);
 
 
 
     unsigned char testBufferData[64];
     Buffer testBuffer(testBufferData,64);
-    for(int i = 0 ; i < 64 ; i++)
+    for(unsigned char j = 0 ; j < 64 ; j++)
     {
-        testBufferData[i] = 0;
+        testBufferData[j] = j;
     }
     
-    while(1)
+    while(0)
     {
         /*
         testProtocol.updateProtocol();
@@ -136,19 +134,19 @@ int main()
         Sleep(1000);
         
     }
-    //NetworkHandler networkHandler(testProtocol);
+    NetworkHandler networkHandler(testProtocol);
     
-    //MainMenu mainMenu;
-    //mainMenu.setupMenu(&globalRenderer, &globalKeyboardReader, &networkHandler);
-/*
-    char choice;// = mainMenu.loopMenu();
+    MainMenu mainMenu;
+    mainMenu.setupMenu(&calcScreen, &globalKeyboardReader, &networkHandler);
+
+    char choice = (char) mainMenu.loopMenu();
 
     if(choice == MainMenu::mainMenuAction::START_GAME)
     {
-        GameInstance gameInstance(&globalRenderer, &globalKeyboardReader);
+        GameInstance gameInstance(&calcScreen, &globalKeyboardReader);
         gameInstance.run();
     }
-*/
+
 
     return 0;
 }

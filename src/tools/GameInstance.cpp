@@ -21,9 +21,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include <Calculib.h>
 
-GameInstance::GameInstance(Renderer * newRenderer, KeyboardReader * newKeyboardReader)
+GameInstance::GameInstance(Screen * newScreen, KeyboardReader * newKeyboardReader)
 {
-    renderer = newRenderer;
+    screen = newScreen;
     keyboardReader = newKeyboardReader;
 }
 
@@ -33,7 +33,7 @@ void GameInstance::run()
     {
         keyboardReader->tick();
         world.tick();
-        world.render(renderer);
+        world.render(screen);
         //tickCalcuLib();
         Sleep(20);
     }

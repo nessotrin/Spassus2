@@ -49,7 +49,7 @@ public:
     NETWORK_PROTOCOL_RESULT sendMessage(unsigned char type, Buffer * dataBuffer, int timeout);
     NETWORK_PROTOCOL_RESULT receiveMessage(unsigned char * type, Buffer * dataBuffer);
     NETWORK_PROTOCOL_RESULT updateProtocol();
-    void removeFromQueue(int size);
+    void removeFromQueue(unsigned int size);
 
 };
 
